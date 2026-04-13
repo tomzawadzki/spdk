@@ -25,9 +25,9 @@ Before running spdk_top you need to run the SPDK application whose performance y
 
 Run the spdk_top application
 
-~~~{.sh}
+```bash
 ./build/bin/spdk_top
-~~~
+```
 
 ## Bottom menu
 

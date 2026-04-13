@@ -64,27 +64,26 @@ top right corner click your user name and select 'Settings'. You should set up t
   * We highly recommend you set your Email Notifications to None. Gerrit can send a lot of emails!
   * In the `My Menu` section, add the following entry:
 
-  ~~~sh
+  ```bash
   Name: SPDK Open Reviews
   URL: #/dashboard/?Outgoing=projects:spdk+o:self+status:open&Needs%20Review=projects:spdk+r:self+-o:self+status:open&Open=projects:spdk+status:open+-r:self+-o:self
-  ~~~
-
+  ```
   You can probably also delete the other entries in there. This will add a link at the top of the page
   under "My" that will show you a nice dashboard of all of the SPDK review activity.
 
 Now that you're configured, you can clone the Gerrit repository locally:
 
-~~~sh
+```bash
 git clone https://review.spdk.io/spdk/spdk
 cd spdk
 git submodule update --init
-~~~
+```
 
 Or if you already cloned directly from GitHub, you can change your repository to point at Gerrit by doing:
 
-~~~sh
+```bash
 git remote set-url origin https://review.spdk.io/spdk/spdk
-~~~
+```
 
 When you later push a patch, you'll be prompted for a password. That password
 is the one generated in the `HTTP Password` section of the Gerrit settings,
@@ -92,31 +91,31 @@ not your GitHub password. To make it easy, turn on the
 [git credential helper](https://git-scm.com/docs/git-credential-store) to store
 your password for you. You can enable it for the SPDK repository with:
 
-~~~sh
+```bash
 git config credential.helper store
-~~~
+```
 
 Finally, you'll need to install the Gerrit commit-msg hook. This inserts a unique change ID each time you
 commit and is **required** for Gerrit to work.
 
-~~~sh
+```bash
 curl -Lo .git/hooks/commit-msg https://review.spdk.io/tools/hooks/commit-msg
 chmod +x .git/hooks/commit-msg
-~~~
+```
 
 Now open .git/config in a text editor and add these lines: (this will make pushing reviews easier)
 
-~~~text
+```text
 [remote "review"]
   url = https://review.spdk.io/spdk/spdk
   push = HEAD:refs/for/master
-~~~
+```
 
 You may also enable the git pre-commit and pre-push hooks to automatically check formatting and run the unit tests:
 
-~~~sh
+```bash
 cp .githooks/* .git/hooks/
-~~~
+```
 
 Now you should be all set!
 
@@ -160,34 +159,34 @@ Submission Requirements:
 Development on SPDK is all done based on the `master` branch, so start by making sure you have the latest. The below
 assumes `origin` is pointed at Gerrit.
 
-~~~sh
+```bash
 git checkout master
 git pull
-~~~
+```
 
 Next, create a branch for your development work.
 
-~~~sh
+```bash
 git checkout -b `my_branch`
-~~~
+```
 
 Then, make your changes and commit as you go. You'll build up a branch off of master with a series of commits. Once you are
 done, pull the latest from master again, rebase your changes on top, and update the submodule pointers that SPDK relies on.
 
-~~~sh
+```bash
 git checkout master
 git pull
 git checkout `my_branch`
 git rebase -i master
 git submodule update
-~~~
+```
 
 Now your branch should be based on the tip of master and you should have the tip of `my_branch` checked out. You can push
 your code to Gerrit for review by doing the following:
 
-~~~sh
+```bash
 git push review
-~~~
+```
 
 If prompted for a password, remember that it is the password from the `HTTP
 Password` section of the Gerrit settings. If you enabled the git credential
@@ -209,7 +208,7 @@ real NVMe SSDs. The tests are all checked in to the main SPDK repository (follow
 That means that users can add tests to the CI system by simply submitting a patch. Tests are required to be added in the
 same patch as the new code they are testing.
 
-The [status of the CI system](https://ci.spdk.io/) includes an overview of the queued patches. Note that patches will not
+The [status of the CI system](https://github.com/spdk/spdk-ci/actions) includes an overview of the queued patches. Note that patches will not
 automatically be queued up, but instead require a cursory approval from one of the SPDK maintainers before they run. Patches
 pending approval for a run through the CI system are listed under the 'Pending Approval' table on the CI status page.
 
@@ -229,10 +228,10 @@ a [new issue](https://github.com/spdk/spdk/issues/new/choose). If you do create 
 you have obtained an issue number from GitHub, either by matching to an existing latent failure or creating your own, you can simply post a comment
 to your patch on Gerrit with the following form:
 
-~~~sh
+```bash
 # Replace 555 with your issue number.
 false positive: 555
-~~~
+```
 
 The CI system will then take care of removing the -1 vote from your patch. It will also comment on the GitHub issue you referenced with a link
 to the latest failure's log. We will prioritize tacking down and fixing these issues based on the number of comments on each one. If the system
@@ -244,9 +243,9 @@ your patch.
 When debugging changes, it may be necessary to run a specific sub job without running the entire per-patch job. Especially when uploading 'Work in Progress'
 and [RFC] patches. To do this, you need to post a comment with the following content:
 
-~~~sh
+```bash
 tests:subjob1,subjob2,subjob3
-~~~
+```
 
 where subjob is a job from the list:
 
@@ -303,9 +302,9 @@ longer depending on the current build queue in the CI.
 If Mellanox Build Bot gives your patch a -1 and you believe that this failure is not related to your patch, you can re-trigger a new
 build by posting a comment with the following content:
 
-~~~sh
+```bash
 Mellanox:retest
-~~~
+```
 
 <a id="local"></a>
 
@@ -322,9 +321,9 @@ having to run the whole suite. Please see below for simplifications and resource
 
 Most of the tests under the `test/iscsi_tgt` directory in SPDK can also be run in isolation by supplying the iso flag for Example:
 
-~~~sh
+```bash
 sudo ./spdk/test/iscsi_tgt/fio/fio.sh --iso
-~~~
+```
 
 The iSCSI iso flag takes care of setting up hugepages for SPDK applications. It also sets up a virtual network interface to run the tests.
 
@@ -334,10 +333,10 @@ The iSCSI iso flag takes care of setting up hugepages for SPDK applications. It 
 
 Each of the tests under the `test/nvmf` directory in SPDK can be run in isolation by passing the iso flag to them. For example:
 
-~~~sh
+```bash
 sudo ./spdk/test/nvmf/target/fio.sh --iso --transport=rdma
 sudo ./spdk/test/nvmf/target/shutdown.sh --iso --transport=rdma
-~~~
+```
 
 Please also note the use of the transport flag. This flag must be supplied when running a test locally and controls which transport is tested
 against in the specific test. Valid values for this flag are "rdma" and "tcp".
@@ -355,10 +354,10 @@ will execute all of the unittests. You are encouraged to run this script against
 Each unit test file can also be executed individually. This enables you to quickly run a single unit test without executing all of unittest.sh.
 This enables you to run the individual unittest behind a debugger.
 
-~~~sh
+```bash
 sudo ./spdk/test/unit/lib/bdev/bdev.c/bdev_ut
 sudo gdb ./spdk/test/unit/lib/bdev/bdev.c/bdev_ut
-~~~
+```
 
 <a id="local_vhost"></a>
 
@@ -418,12 +417,12 @@ few rounds of code review.
 Fortunately, Gerrit makes it very easy to update an outstanding review. You simply update the commits in your git repository to
 incorporate the new changes and push again. For instance:
 
-~~~sh
+```bash
 git checkout `my_branch`
   address code review feedback
 git commit -a --amend
 git push review
-~~~
+```
 
 <a id="multi"></a>
 
@@ -432,7 +431,7 @@ git push review
 Gerrit has excellent support for creating series of patches, where each commit is reviewable separately but is dependent on the
 previous one for merging. You can push an entire series of patches to Gerrit using the following steps:
 
-~~~sh
+```bash
 git checkout master
 git pull
 git checkout <my_series>
@@ -443,12 +442,12 @@ git commit -s -a # Change 2
     make some changes
 git commit -s -a # Change 3
 git push review
-~~~
+```
 
 Gerrit will create three reviews, each dependent on one another. Inevitably, a reviewer will ask you to make a change during
 code review on change #2. To address that feedback, you should do the following:
 
-~~~sh
+```bash
 git checkout <sha of change #2>
 git checkout -b tmp # 'tmp' or any name you want
     address code review feedback
@@ -458,7 +457,7 @@ git rebase -i tmp # Move change #3 on top of the new change #2
 git submodule update
 git push review
 git branch -D tmp # Clean up the 'tmp' branch
-~~~
+```
 <a id="submodule"></a>
 
 ### Managing Submodule Patches

@@ -9,15 +9,15 @@
 
 To build basic set of RPM packages out of the SPDK repo simply run:
 
-~~~{.sh}
+```bash
 # rpmbuild/rpm.sh
-~~~
+```
 
 Additional configuration options can be passed directly as arguments:
 
-~~~{.sh}
+```bash
 # rpmbuild/rpm.sh --with-shared --with-dpdk=/path/to/dpdk/build
-~~~
+```
 
 There are several options that may be passed via environment as well:
 
@@ -35,30 +35,30 @@ There are several options that may be passed via environment as well:
                    desired, especially when used together with GEN_SPEC,
                    this option will preserve the default set of directories.
 
-~~~{.sh}
+```bash
 # DEPS=no MAKEFLAGS="-d -j1" rpmbuild/rpm.sh --with-shared
-~~~
+```
 
 By default, all RPM packages should be created under $HOME directory of the
 target user:
 
-~~~{.sh}
+```bash
 # printf '%s\n' /root/rpmbuild/RPMS/x86_64/*
 /root/rpmbuild/RPMS/x86_64/spdk-devel-v21.01-1.x86_64.rpm
 /root/rpmbuild/RPMS/x86_64/spdk-dpdk-libs-v21.01-1.x86_64.rpm
 /root/rpmbuild/RPMS/x86_64/spdk-libs-v21.01-1.x86_64.rpm
 /root/rpmbuild/RPMS/x86_64/spdk-v21.01-1.x86_64.rpm
 #
-~~~
+```
 
 - spdk            - provides all the binaries, common tooling, etc.
 - spdk-devel      - provides development files
-- spdk-libs       - provides target lib, .pc files (--with-shared)
-- spdk-dpdk-libs  - provides dpdk lib files (--with-shared|--with-dpdk)
+- spdk-libs       - provides target lib, .pc files (`--with-shared`)
+- spdk-dpdk-libs  - provides dpdk lib files (`--with-shared`|`--with-dpdk`)
 
 ## Special case for dpdk-devel {#dpdk_devel}
 
-When rpm.sh finds a bare --with-dpdk argument on the cmdline it will try to
+When rpm.sh finds a bare `--with-dpdk` argument on the cmdline it will try to
 adjust the behavior of the rpmbuild to make sure only SPDK RPMs are built.
 Since this argument requests SPDK to be built against installed DPDK (e.g.
 dpdk-devel package) the spdk-dpdk-libs RPM won't be included.  Moreover, the

@@ -8,8 +8,8 @@ There are two test suites used in SPDK. One is the per-patch suite of tests whic
 verified vote from `SPDK CI Jenkins` in Gerrit. The other is the nightly test suite which is only run nightly. For this example,
 we'll debug a nightly test failure. These debugging tips are also apply to the per-patch test.
 
-On the [CI Status Page](https://ci.spdk.io/) there is a `Job results` section with several links that contain contain the latest nightly
-test results. For example, the nightly test that tests SPDK master with DPDK master is
+On the [CI Status Page](https://github.com/spdk/spdk-ci/actions) there is a `Job results` section with several links that contain
+contain the latest nightly test results. For example, the nightly test that tests SPDK master with DPDK master is
 [here](https://ci.spdk.io/public_build/autotest-nightly.html). On that page, you can find a failed nightly test and select it,
 bringing up a page that shows which individual test jobs failed. Selecting a given job brings up the test log. The most relevant
 information is typically in the file `build.log`, usually at the bottom.
@@ -25,11 +25,11 @@ and `1` to select a test. Running the tests locally should produce the same resu
 the CI issue locally, you are ready to debug it. What's more, it is always encouraged to run as many test cases as possible like
 through the local execution of autotest.sh before submitting the patch.
 
-~~~{.sh}
+```bash
 ./autotest.sh your_conf_file
-~~~
+```
 
-~~~{.sh}
+```bash
 SPDK_BUILD_DOC=0
 SPDK_BUILD_IOAT_KMOD=0
 SPDK_BUILD_SHARED_OBJECT=1
@@ -61,7 +61,7 @@ SPDK_RUN_ASAN=0
 SPDK_RUN_UBSAN=1
 SPDK_TEST_VHOST_INIT=0
 RUN_NIGHTLY=0
-~~~
+```
 
 <a id="gdb"></a>
 
@@ -72,16 +72,16 @@ debugging with gdb, you need to build the spdk code in the debug mode. What's mo
 dump is generated, it is better to configure the core pattern like as shown with the additional information of PID. Later, we can
 live debug for the each corresponding core dumps accordingly.
 
-~~~{.sh}
+```bash
 ./configure --enable-debug
 make clean
 make
 echo 'core.%p' > /proc/sys/kernel/core_pattern
-~~~
+```
 
 Let's pick the unittest of nvme_ut as example.
 
-~~~{.sh}
+```bash
 gdb ./test/lib/nvme/unit/nvme_c/nvme_ut
 (gdb) b test_spdk_nvme_transport_id_parse_trtype
 (gdb) r
@@ -97,7 +97,7 @@ Breakpoint 3, test_spdk_nvme_transport_id_parse_trtype () at nvme_ut.c:247
 #3  0x00007ffff7bd0826 in CU_run_all_tests () from /lib64/libcunit.so.1
 #4  0x000000000040147d in main (argc=<optimized out>, argv=<optimized out>) at nvme_ut.c:379
 (gdb)
-~~~
+```
 
 Based on this example, the regular methods of gdb debugging will help to identify and root cause the issue.
 

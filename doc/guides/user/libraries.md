@@ -148,16 +148,14 @@ which is a linker script. It simply contains references to all of the other spdk
 There are essentially two ways of linking to SPDK libraries.
 
 1. An application can link to the top level shared object library as follows:
-   ~~~{.sh}
+   ```bash
 	gcc -o my_app ./my_app.c -lspdk -lspdk_env_dpdk -ldpdk
-   ~~~
-
+   ```
 2. An application can link to only a subset of libraries by linking directly to the ones it relies on:
-   ~~~{.sh}
+   ```bash
 	gcc -o my_app ./my_app.c -lpassthru_external -lspdk_event_bdev -lspdk_bdev -lspdk_bdev_malloc
 	-lspdk_log -lspdk_thread -lspdk_util -lspdk_event -lspdk_env_dpdk -ldpdk
-   ~~~
-
+   ```
 In the second instance, please note that applications need only link to the libraries upon which they
 directly depend. All SPDK libraries have their dependencies specified at object compile time. This means
 that when linking to `spdk_net`, one does not also have to specify `spdk_log`, `spdk_util`, `spdk_json`,
@@ -184,13 +182,13 @@ Any environment can replace the `spdk_env_dpdk` environment by implementing the 
 file. The environment can either be implemented wholesale in a single library or as a two-part
 shim/implementation library system.
 
-~~~{.sh}
+```bash
 	# single library
 	gcc -o my_app ./my_app.c -lspdk -lcustom_env_implementation
 
 	# two libraries
 	gcc -o my_app ./my_app.c -lspdk -lcustom_env_shim -lcustom_env_implementation
-~~~
+```
 
 ## SPDK Static Objects {#static_objects}
 
@@ -206,8 +204,8 @@ Instead the path to these static libraries should be added as argument at compil
 through `-Wl,-Bstatic`, otherwise some compilers might prefer to use the shared objects if both
 are available.
 
-~~~{.sh}
+```bash
 	gcc -o my_app ./my_app.c -L/path/to/static/libs -Wl,--whole-archive -Wl,-Bstatic -lpassthru_external
 	-lspdk_event_bdev -lspdk_bdev -lspdk_bdev_malloc -lspdk_log -lspdk_thread -lspdk_util -lspdk_event
 	-lspdk_env_dpdk -Wl,--no-whole-archive -Wl,-Bdynamic -pthread -ldpdk
-~~~
+```

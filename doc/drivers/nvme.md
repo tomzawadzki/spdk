@@ -59,26 +59,26 @@ run time options to support the most common workload. The following examples
 demonstrate how to use perf.
 
 Example: Using perf for 4K 100% Random Read workload to a local NVMe SSD for 300 seconds
-~~~{.sh}
+```bash
 perf -q 128 -o 4096 -w randread -r 'trtype:PCIe traddr:0000:04:00.0' -t 300
-~~~
+```
 
 Example: Using perf for 4K 100% Random Read workload to a remote NVMe SSD exported over the network via NVMe-oF
-~~~{.sh}
+```bash
 perf -q 128 -o 4096 -w randread -r 'trtype:RDMA adrfam:IPv4 traddr:192.168.100.8 trsvcid:4420' -t 300
-~~~
+```
 
 Example: Using perf for 4K 70/30 Random Read/Write mix workload to all local NVMe SSDs for 300 seconds
-~~~{.sh}
+```bash
 perf -q 128 -o 4096 -w randrw -M 70 -t 300
-~~~
+```
 
 Example: Using perf for extended LBA format CRC guard test to a local NVMe SSD,
 users must write to the SSD before reading the LBA from SSD
-~~~{.sh}
+```bash
 perf -q 1 -o 4096 -w write -r 'trtype:PCIe traddr:0000:04:00.0' -t 300 -e 'PRACT=0,PRCKH=GUARD'
 perf -q 1 -o 4096 -w read -r 'trtype:PCIe traddr:0000:04:00.0' -t 200 -e 'PRACT=0,PRCKH=GUARD'
-~~~
+```
 
 ## Public Interface {#nvme_interface}
 
@@ -132,7 +132,7 @@ E.g. To send fused compare and write operation user must call spdk_nvme_ns_cmd_c
 followed with spdk_nvme_ns_cmd_write and make sure no other operations are submitted
 in between on the same queue, like in example below:
 
-~~~c
+```c
 	rc = spdk_nvme_ns_cmd_compare(ns, qpair, cmp_buf, 0, 1, nvme_fused_first_cpl_cb,
 			NULL, SPDK_NVME_CMD_FUSE_FIRST);
 	if (rc != 0) {
@@ -144,7 +144,7 @@ in between on the same queue, like in example below:
 	if (rc != 0) {
 		...
 	}
-~~~
+```
 
 The NVMe specification currently defines compare-and-write as a fused operation.
 Support for compare-and-write is reported by the controller flag
@@ -261,14 +261,14 @@ memory group ID will share memory. The first application with a given shared mem
 ID will be considered the primary and all others secondary.
 
 Example: identical shm_id and non-overlapping core masks
-~~~{.sh}
+```bash
 spdk_nvme_perf options [AIO device(s)]...
 	[-c core mask for I/O submission/completion]
 	[-i shared memory group ID]
 
 spdk_nvme_perf -q 1 -o 4096 -w randread -c 0x1 -t 60 -i 1
 spdk_nvme_perf -q 8 -o 131072 -w write -c 0x10 -t 60 -i 1
-~~~
+```
 
 ### Limitations {#nvme_multi_process_limitations}
 
@@ -309,11 +309,11 @@ At the NVMe driver level, we provide the following support for Hotplug:
 
 For each controller as well as namespace, character devices are created in the
 locations:
-~~~{.sh}
+```bash
     /dev/spdk/nvmeX
     /dev/spdk/nvmeXnY
     ...
-~~~
+```
 Where X is unique SPDK NVMe controller index and Y is namespace id.
 
 Requests from CUSE are handled by pthreads when controller and namespaces are created.
@@ -330,9 +330,9 @@ This interface reserves one additional qpair for sending down the I/O for each c
 #### Enabling cuse support for NVMe
 
 Cuse support is enabled by default on Linux. Make sure to install required dependencies:
-~~~{.sh}
+```bash
 sudo scripts/pkgdep.sh
-~~~
+```
 
 #### Creating NVMe-CUSE device
 
@@ -342,7 +342,7 @@ Any NVMe controller attached to a running SPDK application can be
 exposed via NVMe-CUSE interface. When closing SPDK application,
 the NVMe-CUSE devices are unregistered.
 
-~~~{.sh}
+```bash
 $ sudo scripts/setup.sh
 $ sudo modprobe cuse
 $ sudo build/bin/spdk_tgt
@@ -362,18 +362,18 @@ $ sudo scripts/rpc.py bdev_nvme_get_controllers
 $ sudo scripts/rpc.py bdev_nvme_cuse_register -n Nvme0
 $ ls /dev/spdk/
 nvme0  nvme0n1
-~~~
+```
 
 #### Example of using nvme-cli
 
 Most nvme-cli commands can point to specific controller or namespace by providing a path to it.
 This can be leveraged to issue commands to the SPDK NVMe-CUSE devices.
 
-~~~{.sh}
+```bash
 sudo nvme id-ctrl /dev/spdk/nvme0
 sudo nvme smart-log /dev/spdk/nvme0
 sudo nvme id-ns /dev/spdk/nvme0n1
-~~~
+```
 
 Note: `nvme list` command does not display SPDK NVMe-CUSE devices,
 see nvme-cli [PR #773](https://github.com/linux-nvme/nvme-cli/pull/773).
@@ -386,11 +386,11 @@ patterns match, SCSI translation layer is used to identify device.
 To use smartctl '-d nvme' parameter must be used in addition to full path to
 the NVMe device.
 
-~~~{.sh}
+```bash
     smartctl -d nvme -i /dev/spdk/nvme0
     smartctl -d nvme -H /dev/spdk/nvme1
     ...
-~~~
+```
 
 ### Limitations
 
@@ -412,16 +412,16 @@ nvme-cli mostly uses IOCTLs to obtain information, but transport information is
 obtained through sysfs. Since SPDK does not populate sysfs, the SPDK plugin leverages
 an SPDK/CUSE specific ioctl to get the information.
 
-~~~{.c}
+```c
 #define SPDK_CUSE_GET_TRANSPORT _IOWR('n', 0x1, struct cuse_transport)
-~~~
+```
 
-~~~{.c}
+```c
 struct cuse_transport {
 	char trstring[SPDK_NVMF_TRSTRING_MAX_LEN + 1];
 	char traddr[SPDK_NVMF_TRADDR_MAX_LEN + 1];
 } tr;
-~~~
+```
 
 ## NVMe LED management {#nvme_led}
 

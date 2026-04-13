@@ -9,16 +9,16 @@ If your application is using the SPDK nvme library, you would use the following
 to get the list of required SPDK libraries, and the DPDK libraries for the
 DPDK-based environment layer:
 
-~~~bash
+```bash
 PKG_CONFIG_PATH=/path/to/spdk/build/lib/pkgconfig pkg-config --libs spdk_nvme spdk_env_dpdk
-~~~
+```
 
 When linking with static libraries, the dependent system libraries must also be
 specified. To get the list of required system libraries:
 
-~~~bash
+```bash
 PKG_CONFIG_PATH=/path/to/spdk/build/lib/pkgconfig pkg-config --libs --static spdk_syslibs
-~~~
+```
 
 Note that SPDK libraries use constructor functions liberally, so you must surround
 the library list with extra linker options to ensure these functions are not dropped
@@ -27,19 +27,19 @@ the `-Wl,--no-as-needed` parameters while with static libraries `-Wl,--whole-arc
 is used. Here is an example Makefile snippet that shows how to use pkg-config to link
 an application that uses the SPDK nvme shared library:
 
-~~~bash
+```bash
 PKG_CONFIG_PATH = $(SPDK_DIR)/build/lib/pkgconfig
 SPDK_LIB := $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs spdk_nvme spdk_env_dpdk
 
 app:
 	$(CC) -o app app.o -pthread -Wl,--no-as-needed $(SPDK_LIB) -Wl,--as-needed
-~~~
+```
 
 If using the SPDK nvme static library, you should also wrap with `-Wl,-Bstatic` and
 `-Wl,-Bdynamic`. DPDK by default builds both shared and static libraries - these
 linker args will ensure that linker uses the static versions:
 
-~~~bash
+```bash
 PKG_CONFIG_PATH = $(SPDK_DIR)/build/lib/pkgconfig
 SPDK_LIB := $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs spdk_nvme spdk_env_dpdk
 SYS_LIB := $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs --static spdk_syslibs
@@ -47,4 +47,4 @@ SYS_LIB := $(shell PKG_CONFIG_PATH="$(PKG_CONFIG_PATH)" pkg-config --libs --stat
 app:
 	$(CC) -o app app.o -pthread -Wl,--whole-archive -Wl,-Bstatic $(SPDK_LIB) \
 		-Wl,-Bdynamic -Wl,--no-whole-archive $(SYS_LIB)
-~~~
+```

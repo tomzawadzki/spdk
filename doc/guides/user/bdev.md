@@ -81,9 +81,9 @@ To create RBD bdev with a registered cluster.
 `rpc.py bdev_rbd_create rbd foo 512 -c rbd_cluster`
 
 This command will create a bdev that represents the 'foo' image from a pool called 'rbd'.
-When specifying -c for `bdev_rbd_create`, RBD bdevs will share the same rados cluster with
+When specifying `-c` for `bdev_rbd_create`, RBD bdevs will share the same rados cluster with
 one connection of Ceph in librbd module. Instead it will create a new rados cluster with one
-cluster connection for every bdev without specifying -c.
+cluster connection for every bdev without specifying `-c`.
 
 To remove a block device representation use the bdev_rbd_delete command.
 
@@ -253,7 +253,7 @@ Example command
 
 ### Creating a GPT partition table using NBD {#bdev_ug_gpt_create_part}
 
-~~~bash
+```bash
 # Expose bdev Nvme0n1 as kernel block device /dev/nbd0 by JSON-RPC
 rpc.py nbd_start_disk Nvme0n1 /dev/nbd0
 
@@ -273,7 +273,7 @@ rpc.py nbd_stop_disk /dev/nbd0
 # Now Nvme0n1 is configured with a GPT partition table, and
 # the first partition will be automatically exposed as
 # Nvme0n1p1 in SPDK applications.
-~~~
+```
 
 ## iSCSI bdev {#bdev_config_iscsi}
 
@@ -440,7 +440,7 @@ User can get list of available lvol stores using `bdev_lvol_get_lvstores` RPC co
 parameters available).
 
 Example response
-~~~
+```json
 {
   "uuid": "330a6ab2-f468-11e7-983e-001e67edf35d",
   "base_bdev": "Malloc2",
@@ -450,7 +450,7 @@ Example response
   "block_size": 4096,
   "name": "lvs"
 }
-~~~
+```
 
 To delete lvol store user should use `bdev_lvol_delete_lvstore` RPC command.
 
@@ -626,18 +626,24 @@ To enable the module, configure SPDK using `--with-daos` flag.
 Running `daos_agent` service on the target machine is required for the SPDK DAOS bdev communication with a DAOS cluster.
 
 The implementation uses the independent pool and container connections per device's channel for the best IO throughput, therefore,
-running a target application with multiple cores (`-m [0-7], for example) is highly advisable.
+running a target application with multiple cores (`-m [0-7]`, for example) is highly advisable.
 
 Example command for creating daos bdev:
 
-`rpc.py bdev_daos_create daosdev0 test-pool test-cont 64 4096`
+~~~bash
+rpc.py bdev_daos_create daosdev0 test-pool test-cont 64 4096
+~~~
 
 Example command for removing daos bdev:
 
-`rpc.py bdev_daos_delete daosdev0`
+~~~bash
+rpc.py bdev_daos_delete daosdev0
+~~~
 
 To resize a bdev use the bdev_daos_resize command.
 
-`rpc.py bdev_daos_resize daosdev0 8192`
+~~~bash
+rpc.py bdev_daos_resize daosdev0 8192
+~~~
 
 This command will resize the daosdev0 bdev to 8192 MiB.

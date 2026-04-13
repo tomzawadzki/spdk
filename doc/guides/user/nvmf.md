@@ -32,16 +32,16 @@ available [here](https://downloads.openfabrics.org/OFED/).
 To build nvmf_tgt with the RDMA transport, there are some additional dependencies,
 which can be install using pkgdep.sh script.
 
-~~~{.sh}
+```bash
 sudo scripts/pkgdep.sh --rdma
-~~~
+```
 
 Then build SPDK with RDMA enabled:
 
-~~~{.sh}
+```bash
 ./configure --with-rdma <other config parameters>
 make
-~~~
+```
 
 Once built, the binary will be in `build/bin`.
 
@@ -50,7 +50,7 @@ Once built, the binary will be in `build/bin`.
 Before starting our NVMe-oF target with the RDMA transport we must load the InfiniBand and RDMA modules
 that allow userspace processes to use InfiniBand/RDMA verbs directly.
 
-~~~{.sh}
+```bash
 modprobe ib_cm
 modprobe ib_core
 # Please note that ib_ucm does not exist in newer versions of the kernel and is not required.
@@ -60,7 +60,7 @@ modprobe ib_uverbs
 modprobe iw_cm
 modprobe rdma_cm
 modprobe rdma_ucm
-~~~
+```
 
 ### Prerequisites for RDMA NICs {#nvmf_prereqs_rdma_nics}
 
@@ -68,31 +68,31 @@ Before starting our NVMe-oF target we must detect RDMA NICs and assign them IP a
 
 ### Finding RDMA NICs and associated network interfaces
 
-~~~{.sh}
+```bash
 ls /sys/class/infiniband/*/device/net
-~~~
+```
 
 #### Mellanox ConnectX-3 RDMA NICs
 
-~~~{.sh}
+```bash
 modprobe mlx4_core
 modprobe mlx4_ib
 modprobe mlx4_en
-~~~
+```
 
 #### Mellanox ConnectX-4 RDMA NICs
 
-~~~{.sh}
+```bash
 modprobe mlx5_core
 modprobe mlx5_ib
-~~~
+```
 
 #### Assigning IP addresses to RDMA NICs
 
-~~~{.sh}
+```bash
 ifconfig eth1 192.168.100.8 netmask 255.255.255.0 up
 ifconfig eth2 192.168.100.9 netmask 255.255.255.0 up
-~~~
+```
 
 ### RDMA Limitations {#nvmf_rdma_limitations}
 
@@ -129,7 +129,7 @@ https://github.com/ecdufcdrvr/bcmufctdrvr.
 After cloning SPDK repo and initialize submodules, FC LLD library is built which then can be linked with
 the fc transport.
 
-~~~{.sh}
+```bash
 git clone https://github.com/spdk/spdk --recursive
 git clone https://github.com/ecdufcdrvr/bcmufctdrvr fc
 cd fc
@@ -137,7 +137,7 @@ make DPDK_DIR=../spdk/dpdk/build SPDK_DIR=../spdk
 cd ../spdk
 ./configure --with-fc=../fc/build
 make
-~~~
+```
 
 ## Configuring the SPDK NVMe over Fabrics Target {#nvmf_config}
 
@@ -154,22 +154,22 @@ The RDMA transport is configured with an I/O unit size of 8192 bytes, max I/O si
 in capsule data size of 8192 bytes. The TCP transport is configured with an I/O unit size of
 16384 bytes, 8 max qpairs per controller, and an in capsule data size of 8192 bytes.
 
-~~~{.sh}
+```bash
 build/bin/nvmf_tgt
 scripts/rpc.py nvmf_create_transport -t RDMA -u 8192 -i 131072 -c 8192
 scripts/rpc.py nvmf_create_transport -t TCP -u 16384 -m 8 -c 8192
-~~~
+```
 
 Below is an example of creating a malloc bdev and assigning it to a subsystem. Adjust the bdevs,
 NQN, serial number, and IP address with RDMA transport to your own circumstances. If you replace
 "rdma" with "TCP", then the subsystem will add a listener with TCP transport.
 
-~~~{.sh}
+```bash
 scripts/rpc.py bdev_malloc_create -b Malloc0 512 512
 scripts/rpc.py nvmf_create_subsystem nqn.2016-06.io.spdk:cnode1 -a -s SPDK00000000000001 -d SPDK_Controller1
 scripts/rpc.py nvmf_subsystem_add_ns nqn.2016-06.io.spdk:cnode1 Malloc0
 scripts/rpc.py nvmf_subsystem_add_listener nqn.2016-06.io.spdk:cnode1 -t rdma -a 192.168.100.8 -s 4420
-~~~
+```
 
 ### NQN Formal Definition
 
@@ -178,7 +178,7 @@ NVMe qualified names or NQNs are defined in section 7.9 of the
 formalize that definition using [Extended Backus-Naur form](https://en.wikipedia.org/wiki/Extended_Backus%E2%80%93Naur_form).
 SPDK modules use this formal definition (provided below) when validating NQNs.
 
-~~~{.sh}
+```bash
 
 Basic Types
 year = 4 * digit ;
@@ -194,7 +194,7 @@ NVMe UUID NQN = "nqn.2014-08.org.nvmexpress:uuid:", string UUID ;
 string UUID = 8 * hex digit, '-', 3 * (4 * hex digit, '-'), 12 * hex digit ;
 NVMe Domain NQN = "nqn.", year, '-', month, '.', reverse domain, ':', utf-8 string ;
 
-~~~
+```
 
 Please note that the following types from the definition above are defined elsewhere:
 
@@ -229,9 +229,9 @@ be located on the same NUMA node.
 The `-m` core mask option specifies a bit mask of the CPU cores that
 SPDK is allowed to execute work items on.
 For example, to allow SPDK to use cores 24, 25, 26 and 27:
-~~~{.sh}
+```bash
 build/bin/nvmf_tgt -m 0xF000000
-~~~
+```
 
 ## Configuring the Linux NVMe over Fabrics Host {#nvmf_host}
 
@@ -240,29 +240,29 @@ The Linux kernel NVMe-oF RDMA host support is provided by the `nvme-rdma` driver
 (to support RDMA transport) and `nvme-tcp` (to support TCP transport). And the
 following shows two different commands for loading the driver.
 
-~~~{.sh}
+```bash
 modprobe nvme-rdma
 modprobe nvme-tcp
-~~~
+```
 
 The nvme-cli tool may be used to interface with the Linux kernel NVMe over Fabrics host.
 See below for examples of the discover, connect and disconnect commands. In all three instances, the
 transport can be changed to TCP by interchanging 'rdma' for 'tcp'.
 
 Discovery:
-~~~{.sh}
+```bash
 nvme discover -t rdma -a 192.168.100.8 -s 4420
-~~~
+```
 
 Connect:
-~~~{.sh}
+```bash
 nvme connect -t rdma -n "nqn.2016-06.io.spdk:cnode1" -a 192.168.100.8 -s 4420
-~~~
+```
 
 Disconnect:
-~~~{.sh}
+```bash
 nvme disconnect -n "nqn.2016-06.io.spdk:cnode1"
-~~~
+```
 
 ## Enabling NVMe-oF target tracepoints for offline analysis and debug {#nvmf_trace}
 
@@ -311,7 +311,7 @@ Additionally, it is recommended to follow:
 
 ### Target setup
 
-~~~{.sh}
+```bash
 cat key.txt
 NVMeTLSkey-1:01:MDAxMTIyMzM0NDU1NjY3Nzg4OTlhYWJiY2NkZGVlZmZwJEiQ:
 
@@ -322,14 +322,14 @@ scripts/rpc.py nvmf_subsystem_add_listener nqn.2016-06.io.spdk:cnode1 -t tcp -a 
                --secure-channel
 scripts/rpc.py nvmf_subsystem_add_host nqn.2016-06.io.spdk:cnode1 nqn.2016-06.io.spdk:host1 \
                --psk key.txt
-~~~
+```
 
 ### Initiator setup
 
 For SPDK initiator example, bdevperf application may be used, because it depends on SPDK's
 NVMe TCP driver.
 
-~~~{.sh}
+```bash
 cat key.txt
 NVMeTLSkey-1:01:MDAxMTIyMzM0NDU1NjY3Nzg4OTlhYWJiY2NkZGVlZmZwJEiQ:
 
@@ -337,7 +337,7 @@ build/examples/bdevperf -m 0x2 -z -r /var/tmp/bdevperf.sock -q 128 -o 4096 -w ve
 scripts/rpc.py -s /var/tmp/bdevperf.sock bdev_nvme_attach_controller -b TLSTEST -t tcp -a 127.0.0.1 \
                -s 4420 -f ipv4 -n nqn.2016-06.io.spdk:cnode1 -q nqn.2016-06.io.spdk:host1 \
                --psk key.txt
-~~~
+```
 
 First of the two commands will launch bdevperf, the second one will attempt to construct NVMe bdev
 and establish TLS connection. Of course, the same PSK must be used on both the target and the
