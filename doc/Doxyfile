@@ -203,6 +203,13 @@ IMAGE_PATH             = img
 
 SOURCE_BROWSER         = YES
 
+# Setting the STRIP_CODE_COMMENTS tag to YES will instruct Doxygen to hide any
+# special comment blocks from generated source code fragments. Normal C, C++ and
+# Fortran comments will always remain visible.
+# The default value is: YES.
+
+STRIP_CODE_COMMENTS    = NO
+
 # If the VERBATIM_HEADERS tag is set the YES then Doxygen will generate a
 # verbatim copy of the header file for each class for which an include is
 # specified. Set to NO to disable this.
