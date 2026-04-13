@@ -1,0 +1,319 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700,900");
+
+/* Measured integration differences from Doxygen 1.17's stock CSS. */
+:root {
+    --spdk-brand: #2b497d;
+    --spdk-border: #dee2e6;
+    --spdk-surface: #f8f9fa;
+    --spdk-code-bg: #f0f2f5;
+    --spdk-content-max: 1296px;
+    --spdk-font-monospace: "JetBrains Mono", Consolas, Monaco, "Andale Mono",
+        "Ubuntu Mono", monospace;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, table, div, p, dl {
+    font-family: "Roboto", sans-serif;
+}
+
+body {
+    color: #212529;
+    margin: 0;
+}
+
+a {
+    color: var(--spdk-brand);
+}
+
+#doc-content {
+    padding: 0 15px;
+}
+
+#doc-content > .header,
+#doc-content > .contents,
+#doc-content > div > .header,
+#doc-content > div > .contents {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--spdk-content-max);
+}
+
+div.header {
+    background: var(--spdk-surface);
+    border-bottom: 3px solid var(--spdk-brand);
+    margin-top: 16px;
+    overflow: hidden;
+}
+
+div.headertitle {
+    padding: 20px 30px 16px;
+}
+
+.title {
+    color: #1a1a1a;
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin: 4px 0;
+}
+
+#doc-content .contents,
+#doc-content .textblock {
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+#doc-content .contents p,
+#doc-content .contents dl,
+#doc-content .textblock p {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+#side-nav,
+#nav-tree,
+#page-nav {
+    background: var(--spdk-surface);
+}
+
+#side-nav {
+    border-right: 1px solid var(--spdk-border);
+}
+
+#nav-tree {
+    border-right: 0;
+    overflow-x: hidden;
+}
+
+/* Flatten Doxygen's project and main-page wrapper nodes. */
+#nav-tree-contents > ul > li > .item,
+#nav-tree-contents > ul > li > .children_ul > li:first-child > .item {
+    display: none;
+}
+
+#nav-tree-contents > ul > li > .children_ul,
+#nav-tree-contents > ul > li > .children_ul > li:first-child > .children_ul {
+    display: block !important;
+    padding-left: 0 !important;
+}
+
+#nav-tree-contents {
+    margin-top: 10px;
+}
+
+#nav-tree .item,
+#page-nav .item {
+    align-items: center;
+    display: flex;
+    gap: 2px;
+    height: 34px;
+}
+
+#page-nav .item {
+    margin: 0 6px 0 -5px;
+    padding-left: 5px;
+}
+
+#nav-tree .label {
+    margin-left: 4px;
+}
+
+#nav-tree .label a,
+#page-nav .item > a {
+    color: #333;
+    font-family: "Roboto", sans-serif;
+    font-size: 15px;
+    line-height: 30px;
+    padding: 2px 4px;
+    text-decoration: none;
+}
+
+#page-nav .item > a {
+    margin-left: 4px;
+}
+
+#nav-tree li,
+#page-nav li {
+    padding: 0;
+}
+
+#nav-tree .arrow,
+#page-nav .arrow {
+    align-items: center;
+    display: inline-flex;
+    flex-shrink: 0;
+    height: 24px;
+    justify-content: center;
+    min-width: 24px;
+}
+
+#nav-tree .arrow {
+    padding-left: 0 !important;
+    width: 24px !important;
+}
+
+#page-nav .arrow {
+    box-sizing: content-box;
+}
+
+#nav-tree .arrow:focus-visible,
+#page-nav .arrow:focus-visible {
+    outline: 2px solid var(--spdk-brand);
+    outline-offset: 1px;
+}
+
+#nav-tree ul {
+    padding-left: 6px;
+}
+
+#nav-tree .children_ul {
+    padding: 0 0 0 16px;
+}
+
+#nav-tree .item:hover,
+#page-nav .item:hover {
+    background-color: rgb(0 0 0 / 6%);
+}
+
+#nav-tree .selected,
+#page-nav li.vis > .item {
+    background-color: #e3ecf7;
+}
+
+#page-nav li.vis > .item {
+    border-radius: 0 6px 6px 0;
+}
+
+#nav-tree .selected .label a,
+#page-nav li.vis > .item > a {
+    color: var(--spdk-brand);
+    font-weight: 700;
+}
+
+#nav-sync {
+    display: none;
+}
+
+#page-nav {
+    border-left-color: var(--spdk-border);
+}
+
+#page-nav ul.page-outline {
+    margin-top: 10px;
+}
+
+#page-nav span.tt {
+    background: none;
+    border-radius: 0;
+    font: inherit;
+    padding: 0;
+    white-space: inherit;
+}
+
+#doc-content .textblock a,
+#doc-content .contents a,
+#doc-content .memdoc a {
+    text-decoration: underline;
+    text-decoration-color: rgb(43 73 125 / 30%);
+    text-underline-offset: 2px;
+}
+
+#doc-content .textblock a:hover,
+#doc-content .contents a:hover,
+#doc-content .memdoc a:hover {
+    text-decoration-color: currentColor;
+}
+
+span.tt,
+code {
+    background-color: var(--spdk-code-bg);
+    border-radius: 4px;
+    font-family: var(--spdk-font-monospace);
+    font-size: 0.83em;
+    line-height: 1.25;
+    padding: 0.08em 0.3em;
+}
+
+div.fragment {
+    background-color: var(--spdk-surface);
+    border: 1px solid var(--spdk-border);
+    border-radius: 6px;
+}
+
+table.markdownTable th,
+table.fieldtable th {
+    background-color: var(--spdk-brand);
+    color: #fff;
+}
+
+/* The integrated website inserts Doxygen's native search into its navbar. */
+.navbar-nav > #doxygen-searchbox {
+    align-items: center;
+    display: flex;
+    min-height: 38px;
+    padding: 0 8px;
+}
+
+.navbar-nav > #doxygen-searchbox #MSearchBox {
+    margin: 0;
+    position: relative;
+    right: auto;
+}
+
+@media (max-width: 767.98px) {
+    body {
+        overflow: auto !important;
+    }
+
+    .navbar-nav > #doxygen-searchbox {
+        padding: 5px 8px;
+    }
+
+    #side-nav,
+    #page-nav,
+    #page-nav-resize-handle {
+        display: none !important;
+    }
+
+    #container {
+        display: block !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    #doc-content {
+        height: auto !important;
+        margin-left: 0 !important;
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    #doc-content .contents {
+        max-width: 100%;
+        min-width: 0;
+        overflow-x: auto;
+    }
+
+    #doc-content .title {
+        font-size: 2rem;
+        overflow-wrap: anywhere;
+    }
+
+    #doc-content span.tt,
+    #doc-content .memname,
+    #doc-content td,
+    #doc-content th {
+        overflow-wrap: anywhere;
+    }
+}
+
+@media print {
+    footer#nav-path {
+        display: block;
+    }
+}
