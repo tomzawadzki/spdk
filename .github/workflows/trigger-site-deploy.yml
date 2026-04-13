@@ -1,0 +1,31 @@
+---
+name: Trigger site deployment
+
+"on":
+  push:
+    branches: [master]
+    paths:
+      - 'doc/**'
+      - 'include/spdk/**'
+      - 'CHANGELOG.md'
+      - 'deprecation.md'
+      - 'schema/**'
+      - 'scripts/genrpc.py'
+  workflow_dispatch:
+    inputs:
+      site_repo:
+        description: 'Target spdk.github.io repo (owner/name)'
+        required: false
+        type: string
+        default: 'spdk/spdk.github.io'
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch deploy event to spdk.github.io
+        run: |
+          gh api repos/${{ inputs.site_repo || format('{0}/spdk.github.io', github.repository_owner) }}/dispatches \
+            -f event_type=spdk-site-deploy
+        env:
+          GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }}
