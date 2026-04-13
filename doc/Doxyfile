@@ -145,6 +145,18 @@ WARN_IF_UNDOCUMENTED   = NO
 
 WARN_NO_PARAMDOC       = YES
 
+# The NUM_PROC_THREADS specifies the number of threads Doxygen is allowed to use
+# during processing. When set to 0 Doxygen will based this on the number of
+# cores available in the system. You can set it explicitly to a value larger
+# than 0 to get more control over the balance between CPU load and processing
+# speed. At this moment only the input processing can be done using multiple
+# threads. Since this is still an experimental feature the default is set to 1,
+# which effectively disables parallel processing. Please report any issues you
+# encounter.
+# Minimum value: 0, maximum value: 32, default value: 1.
+
+NUM_PROC_THREADS       = 0
+
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
