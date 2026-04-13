@@ -1,7 +1,7 @@
-# Doxyfile 1.8.13
+# Doxyfile 1.16.1
 
 # This file describes the settings to be used by the documentation system
-# doxygen (www.doxygen.org) for a project.
+# Doxygen (www.doxygen.org) for a project.
 #
 # All text after a double hash (##) is considered a comment and is placed in
 # front of the TAG it is preceding.
@@ -12,6 +12,16 @@
 # For lists, items can also be appended using:
 # TAG += value [value, ...]
 # Values that contain spaces should be placed between quotes (\" \").
+#
+# Note:
+#
+# Use Doxygen to compare the used configuration file with the template
+# configuration file:
+# doxygen -x [configFile]
+# Use Doxygen to compare the used configuration file with the template
+# configuration file without replacing the environment variables or CMake type
+# replacement variables:
+# doxygen -x_noenv [configFile]
 
 
 #---------------------------------------------------------------------------
@@ -24,11 +34,11 @@
 # title of most generated pages and in a few other places.
 # The default value is: My Project.
 
-PROJECT_NAME           = "SPDK"
+PROJECT_NAME           = SPDK
 
 # The OUTPUT_DIRECTORY tag is used to specify the (relative or absolute) path
 # into which the generated documentation will be written. If a relative path is
-# entered, it will be relative to the location where doxygen was started. If
+# entered, it will be relative to the location where Doxygen was started. If
 # left blank the current directory will be used.
 
 OUTPUT_DIRECTORY       = output
@@ -44,18 +54,18 @@ OUTPUT_DIRECTORY       = output
 
 ABBREVIATE_BRIEF       =
 
-# If the FULL_PATH_NAMES tag is set to YES, doxygen will prepend the full path
+# If the FULL_PATH_NAMES tag is set to YES, Doxygen will prepend the full path
 # before files name in the file list and in the header files. If set to NO the
 # shortest path that makes the file name unique will be used
 # The default value is: YES.
 
 FULL_PATH_NAMES        = NO
 
-# If the JAVADOC_AUTOBRIEF tag is set to YES then doxygen will interpret the
-# first line (until the first dot) of a Javadoc-style comment as the brief
-# description. If set to NO, the Javadoc-style will behave just like regular Qt-
-# style comments (thus requiring an explicit @brief command for a brief
-# description.)
+# If the JAVADOC_AUTOBRIEF tag is set to YES then Doxygen will interpret the
+# first line (until the first dot, question mark or exclamation mark) of a
+# Javadoc-style comment as the brief description. If set to NO, the Javadoc-
+# style will behave just like regular Qt-style comments (thus requiring an
+# explicit @brief command for a brief description.)
 # The default value is: NO.
 
 JAVADOC_AUTOBRIEF      = YES
@@ -65,12 +75,6 @@ JAVADOC_AUTOBRIEF      = YES
 # Minimum value: 1, maximum value: 16, default value: 4.
 
 TAB_SIZE               = 8
-
-# This tag can be used to specify a number of word-keyword mappings (TCL only).
-# A mapping has the form "name=value". For example adding "class=itcl::class"
-# will allow you to use the command class in the itcl::class meaning.
-
-# TCL_SUBST              =
 
 # Set the OPTIMIZE_OUTPUT_FOR_C tag to YES if your project consists of C sources
 # only. Doxygen will then generate output that is more tailored for C. For
@@ -84,7 +88,7 @@ OPTIMIZE_OUTPUT_FOR_C  = YES
 # to that level are automatically included in the table of contents, even if
 # they do not have an id attribute.
 # Note: This feature currently applies only to Markdown headings.
-# Minimum value: 0, maximum value: 99, default value: 0.
+# Minimum value: 0, maximum value: 99, default value: 6.
 # This tag requires that the tag MARKDOWN_SUPPORT is set to YES.
 
 TOC_INCLUDE_HEADINGS   = 0
@@ -99,16 +103,24 @@ TOC_INCLUDE_HEADINGS   = 0
 
 EXTRACT_STATIC         = YES
 
-# If the CASE_SENSE_NAMES tag is set to NO then doxygen will only generate file
-# names in lower-case letters. If set to YES, upper-case letters are also
-# allowed. This is useful if you have classes or files whose names only differ
-# in case and if your file system supports case sensitive file names. Windows
-# and Mac users are advised to set this option to NO.
-# The default value is: system dependent.
+# With the correct setting of option CASE_SENSE_NAMES Doxygen will better be
+# able to match the capabilities of the underlying filesystem. In case the
+# filesystem is case sensitive (i.e. it supports files in the same directory
+# whose names only differ in casing), the option must be set to YES to properly
+# deal with such files in case they appear in the input. For filesystems that
+# are not case sensitive the option should be set to NO to properly deal with
+# output files written for symbols that only differ in casing, such as for two
+# classes, one named CLASS and the other named Class, and to also support
+# references to files without having to specify the exact matching casing. On
+# Windows (including Cygwin) and macOS, users should typically set this option
+# to NO, whereas on Linux or other Unix flavors it should typically be set to
+# YES.
+# Possible values are: SYSTEM, NO and YES.
+# The default value is: SYSTEM.
 
 CASE_SENSE_NAMES       = YES
 
-# If the SHOW_INCLUDE_FILES tag is set to YES then doxygen will put a list of
+# If the SHOW_INCLUDE_FILES tag is set to YES then Doxygen will put a list of
 # the files that are included by a file in the documentation of that file.
 # The default value is: YES.
 
@@ -119,13 +131,13 @@ SHOW_INCLUDE_FILES     = NO
 #---------------------------------------------------------------------------
 
 # The QUIET tag can be used to turn on/off the messages that are generated to
-# standard output by doxygen. If QUIET is set to YES this implies that the
+# standard output by Doxygen. If QUIET is set to YES this implies that the
 # messages are off.
 # The default value is: NO.
 
 QUIET                  = YES
 
-# If the WARN_IF_UNDOCUMENTED tag is set to YES then doxygen will generate
+# If the WARN_IF_UNDOCUMENTED tag is set to YES then Doxygen will generate
 # warnings for undocumented members. If EXTRACT_ALL is set to YES then this flag
 # will automatically be disabled.
 # The default value is: YES.
@@ -134,8 +146,10 @@ WARN_IF_UNDOCUMENTED   = NO
 
 # This WARN_NO_PARAMDOC option can be enabled to get warnings for functions that
 # are documented, but have no documentation for their parameters or return
-# value. If set to NO, doxygen will only warn about wrong or incomplete
-# parameter documentation, but not about the absence of documentation.
+# value. If set to NO, Doxygen will only warn about wrong parameter
+# documentation, but not about the absence of documentation. If EXTRACT_ALL is
+# set to YES then this flag will automatically be disabled. See also
+# WARN_IF_INCOMPLETE_DOC
 # The default value is: NO.
 
 WARN_NO_PARAMDOC       = YES
@@ -226,13 +240,17 @@ INPUT                  = ../include/spdk \
 #
 # Note that for custom extensions or not directly supported extensions you also
 # need to set EXTENSION_MAPPING for the extension otherwise the files are not
-# read by doxygen.
+# read by Doxygen.
 #
-# If left blank the following patterns are tested:*.c, *.cc, *.cxx, *.cpp,
-# *.c++, *.java, *.ii, *.ixx, *.ipp, *.i++, *.inl, *.idl, *.ddl, *.odl, *.h,
-# *.hh, *.hxx, *.hpp, *.h++, *.cs, *.d, *.php, *.php4, *.php5, *.phtml, *.inc,
-# *.m, *.markdown, *.md, *.mm, *.dox, *.py, *.pyw, *.f90, *.f95, *.f03, *.f08,
-# *.f, *.for, *.tcl, *.vhd, *.vhdl, *.ucf and *.qsf.
+# Note the list of default checked file patterns might differ from the list of
+# default file extension mappings.
+#
+# If left blank the following patterns are tested:*.c, *.cc, *.cxx, *.cxxm,
+# *.cpp, *.cppm, *.ccm, *.c++, *.c++m, *.java, *.ii, *.ixx, *.ipp, *.i++, *.inl,
+# *.idl, *.ddl, *.odl, *.h, *.hh, *.hxx, *.hpp, *.h++, *.l, *.cs, *.d, *.php,
+# *.php4, *.php5, *.phtml, *.inc, *.m, *.markdown, *.md, *.mm, *.dox (to be
+# provided as Doxygen C comment), *.py, *.pyw, *.f90, *.f95, *.f03, *.f08,
+# *.f18, *.f, *.for, *.vhd, *.vhdl, *.ucf, *.qsf and *.ice.
 
 FILE_PATTERNS          =
 
@@ -246,10 +264,7 @@ RECURSIVE              = YES
 # (namespaces, classes, functions, etc.) that should be excluded from the
 # output. The symbol name can be a fully qualified name, a word, or if the
 # wildcard * is used, a substring. Examples: ANamespace, AClass,
-# AClass::ANamespace, ANamespace::*Test
-#
-# Note that the wildcards are matched against the file with absolute path, so to
-# exclude all test directories use the pattern */test/*
+# ANamespace::AClass, ANamespace::*Test
 
 EXCLUDE_SYMBOLS        = cap_lo_register \
                          cap_hi_register \
@@ -274,7 +289,7 @@ IMAGE_PATH             = img
 # Configuration options related to source browsing
 #---------------------------------------------------------------------------
 
-# If the VERBATIM_HEADERS tag is set the YES then doxygen will generate a
+# If the VERBATIM_HEADERS tag is set the YES then Doxygen will generate a
 # verbatim copy of the header file for each class for which an include is
 # specified. Set to NO to disable this.
 # See also: Section \class.
@@ -288,13 +303,18 @@ VERBATIM_HEADERS       = NO
 
 # The HTML_EXTRA_STYLESHEET tag can be used to specify additional user-defined
 # cascading style sheets that are included after the standard style sheets
-# created by doxygen. Using this option one can overrule certain style aspects.
+# created by Doxygen. Using this option one can overrule certain style aspects.
 # This is preferred over using HTML_STYLESHEET since it does not replace the
 # standard style sheet and is therefore more robust against future updates.
 # Doxygen will copy the style sheet files to the output directory.
 # Note: The order of the extra style sheet files is of importance (e.g. the last
 # style sheet in the list overrules the setting of the previous ones in the
-# list). For an example see the documentation.
+# list).
+# Note: Since the styling of scrollbars can currently not be overruled in
+# Webkit/Chromium, the styling will be left out of the default doxygen.css if
+# one or more extra stylesheets have been specified. So if scrollbar
+# customization is desired it has to be added explicitly. For an example see the
+# documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_EXTRA_STYLESHEET  = stylesheet.css
@@ -310,14 +330,19 @@ HTML_EXTRA_STYLESHEET  = stylesheet.css
 HTML_EXTRA_FILES       = two.min.js
 
 # When MathJax is enabled you need to specify the location relative to the HTML
-# output directory using the MATHJAX_RELPATH option. The destination directory
-# should contain the MathJax.js script. For instance, if the mathjax directory
-# is located at the same level as the HTML output directory, then
-# MATHJAX_RELPATH should be ../mathjax. The default value points to the MathJax
-# Content Delivery Network so you can quickly see the result without installing
-# MathJax. However, it is strongly recommended to install a local copy of
-# MathJax from http://www.mathjax.org before deployment.
-# The default value is: http://cdn.mathjax.org/mathjax/latest.
+# output directory using the MATHJAX_RELPATH option. For Mathjax version 2 the
+# destination directory should contain the MathJax.js script. For instance, if
+# the mathjax directory is located at the same level as the HTML output
+# directory, then MATHJAX_RELPATH should be ../mathjax.s For Mathjax versions 3
+# and 4 the destination directory should contain the tex-<format>.js script
+# (where <format> is either chtml or svg). The default value points to the
+# MathJax Content Delivery Network so you can quickly see the result without
+# installing MathJax. However, it is strongly recommended to install a local
+# copy of MathJax from https://www.mathjax.org before deployment. The default
+# value is:
+# - in case of MathJax version 2: https://cdn.jsdelivr.net/npm/mathjax@2
+# - in case of MathJax version 3: https://cdn.jsdelivr.net/npm/mathjax@3
+# - in case of MathJax version 4: https://cdn.jsdelivr.net/npm/mathjax@4
 # This tag requires that the tag USE_MATHJAX is set to YES.
 
 MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
@@ -326,7 +351,7 @@ MATHJAX_RELPATH        = http://www.mathjax.org/mathjax
 # Configuration options related to the LaTeX output
 #---------------------------------------------------------------------------
 
-# If the GENERATE_LATEX tag is set to YES, doxygen will generate LaTeX output.
+# If the GENERATE_LATEX tag is set to YES, Doxygen will generate LaTeX output.
 # The default value is: YES.
 
 GENERATE_LATEX         = NO
@@ -334,10 +359,11 @@ GENERATE_LATEX         = NO
 # The LATEX_CMD_NAME tag can be used to specify the LaTeX command name to be
 # invoked.
 #
-# Note that when enabling USE_PDFLATEX this option is only used for generating
-# bitmaps for formulas in the HTML output, but not in the Makefile that is
-# written to the output directory.
-# The default file is: latex.
+# Note that when not enabling USE_PDFLATEX the default is latex when enabling
+# USE_PDFLATEX the default is pdflatex and when in the later case latex is
+# chosen this is overwritten by pdflatex. For specific output languages the
+# default can have been set differently, this depends on the implementation of
+# the output language.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
 LATEX_CMD_NAME         = latex
@@ -351,10 +377,16 @@ LATEX_CMD_NAME         = latex
 
 PAPER_TYPE             = letter
 
-# If the LATEX_BATCHMODE tag is set to YES, doxygen will add the \batchmode
-# command to the generated LaTeX files. This will instruct LaTeX to keep running
-# if errors occur, instead of asking the user for help. This option is also used
-# when generating formulas in HTML.
+# The LATEX_BATCHMODE tag signals the behavior of LaTeX in case of an error.
+# Possible values are: NO same as ERROR_STOP, YES same as BATCH, BATCH In batch
+# mode nothing is printed on the terminal, errors are scrolled as if <return> is
+# hit at every error; missing files that TeX tries to input or request from
+# keyboard input (\read on a not open input stream) cause the job to abort,
+# NON_STOP In nonstop mode the diagnostic message will appear on the terminal,
+# but there is no possibility of user interaction just like in batch mode,
+# SCROLL In scroll mode, TeX will stop only for missing files to input or if
+# keyboard input is necessary and ERROR_STOP In errorstop mode, TeX will stop at
+# each error, asking for user intervention.
 # The default value is: NO.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
@@ -362,8 +394,8 @@ LATEX_BATCHMODE        = YES
 
 # The LATEX_BIB_STYLE tag can be used to specify the style to use for the
 # bibliography, e.g. plainnat, or ieeetr. See
-# http://en.wikipedia.org/wiki/BibTeX and \cite for more info.
-# The default value is: plain.
+# https://en.wikipedia.org/wiki/BibTeX and \cite for more info.
+# The default value is: plainnat.
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
 LATEX_BIB_STYLE        = plain
@@ -372,7 +404,7 @@ LATEX_BIB_STYLE        = plain
 # Configuration options related to the preprocessor
 #---------------------------------------------------------------------------
 
-# If the MACRO_EXPANSION tag is set to YES, doxygen will expand all macro names
+# If the MACRO_EXPANSION tag is set to YES, Doxygen will expand all macro names
 # in the source code. If set to NO, only conditional compilation will be
 # performed. Macro expansion can be done in a controlled way by setting
 # EXPAND_ONLY_PREDEF to YES.
@@ -400,12 +432,12 @@ EXPAND_ONLY_PREDEF     = YES
 PREDEFINED             = __attribute__(x)=
 
 #---------------------------------------------------------------------------
-# Configuration options related to the dot tool
+# Configuration options related to diagram generator tools
 #---------------------------------------------------------------------------
 
-# If you set the HAVE_DOT tag to YES then doxygen will assume the dot tool is
+# If you set the HAVE_DOT tag to YES then Doxygen will assume the dot tool is
 # available from the path. This tool is part of Graphviz (see:
-# http://www.graphviz.org/), a graph visualization toolkit from AT&T and Lucent
+# https://www.graphviz.org/), a graph visualization toolkit from AT&T and Lucent
 # Bell Labs. The other options in this section have no effect if this option is
 # set to NO
 # The default value is: NO.
@@ -413,27 +445,35 @@ PREDEFINED             = __attribute__(x)=
 HAVE_DOT               = YES
 
 # If the INCLUDE_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are set to
-# YES then doxygen will generate a graph for each documented file showing the
+# YES then Doxygen will generate a graph for each documented file showing the
 # direct and indirect include dependencies of the file with other documented
-# files.
+# files. Explicit enabling an include graph, when INCLUDE_GRAPH is is set to NO,
+# can be accomplished by means of the command \includegraph. Disabling an
+# include graph can be accomplished by means of the command \hideincludegraph.
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 INCLUDE_GRAPH          = NO
 
 # If the INCLUDED_BY_GRAPH, ENABLE_PREPROCESSING and SEARCH_INCLUDES tags are
-# set to YES then doxygen will generate a graph for each documented file showing
+# set to YES then Doxygen will generate a graph for each documented file showing
 # the direct and indirect include dependencies of the file with other documented
-# files.
+# files. Explicit enabling an included by graph, when INCLUDED_BY_GRAPH is set
+# to NO, can be accomplished by means of the command \includedbygraph. Disabling
+# an included by graph can be accomplished by means of the command
+# \hideincludedbygraph.
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 INCLUDED_BY_GRAPH      = NO
 
-# If the DIRECTORY_GRAPH tag is set to YES then doxygen will show the
+# If the DIRECTORY_GRAPH tag is set to YES then Doxygen will show the
 # dependencies a directory has on other directories in a graphical way. The
 # dependency relations are determined by the #include relations between the
-# files in the directories.
+# files in the directories. Explicit enabling a directory graph, when
+# DIRECTORY_GRAPH is set to NO, can be accomplished by means of the command
+# \directorygraph. Disabling a directory graph can be accomplished by means of
+# the command \hidedirectorygraph.
 # The default value is: YES.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
@@ -442,25 +482,30 @@ DIRECTORY_GRAPH        = NO
 # The DOT_IMAGE_FORMAT tag can be used to set the image format of the images
 # generated by dot. For an explanation of the image formats see the section
 # output formats in the documentation of the dot tool (Graphviz (see:
-# http://www.graphviz.org/)).
-# Note: If you choose svg you need to set HTML_FILE_EXTENSION to xhtml in order
-# to make the SVG files visible in IE 9+ (other browsers do not have this
-# requirement).
+# https://www.graphviz.org/)).
+#
+# Note the formats svg:cairo and svg:cairo:cairo cannot be used in combination
+# with INTERACTIVE_SVG (the INTERACTIVE_SVG will be set to NO).
 # Possible values are: png, jpg, gif, svg, png:gd, png:gd:gd, png:cairo,
-# png:cairo:gd, png:cairo:cairo, png:cairo:gdiplus, png:gdiplus and
-# png:gdiplus:gdiplus.
+# png:cairo:gd, png:cairo:cairo, png:cairo:gdiplus, png:gdiplus,
+# png:gdiplus:gdiplus, svg:cairo, svg:cairo:cairo, svg:svg, svg:svg:core,
+# gif:cairo, gif:cairo:gd, gif:cairo:gdiplus, gif:gdiplus, gif:gdiplus:gdiplus,
+# gif:gd, gif:gd:gd, jpg:cairo, jpg:cairo:gd, jpg:cairo:gdiplus, jpg:gd,
+# jpg:gd:gd, jpg:gdiplus and jpg:gdiplus:gdiplus.
 # The default value is: png.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
 DOT_IMAGE_FORMAT       = svg
 
-# If DOT_IMAGE_FORMAT is set to svg, then this option can be set to YES to
-# enable generation of interactive SVG images that allow zooming and panning.
+# If DOT_IMAGE_FORMAT is set to svg or svg:svg or svg:svg:core, then this option
+# can be set to YES to enable generation of interactive SVG images that allow
+# zooming and panning.
 #
 # Note that this requires a modern browser other than Internet Explorer. Tested
 # and working are Firefox, Chrome, Safari, and Opera.
-# Note: For IE 9+ you need to set HTML_FILE_EXTENSION to xhtml in order to make
-# the SVG files visible. Older versions of IE do not have SVG support.
+#
+# Note This option will be automatically disabled when DOT_IMAGE_FORMAT is set
+# to svg:cairo or svg:cairo:cairo.
 # The default value is: NO.
 # This tag requires that the tag HAVE_DOT is set to YES.
 
