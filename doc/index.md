@@ -1,41 +1,15 @@
 # Storage Performance Development Kit {#mainpage}
 
-## Introduction
-
-@copydoc intro
-
-## Concepts
-
-@copydoc concepts
-
-## User Guides
-
-@copydoc user_guides
-
-## Programmer Guides
-
-@copydoc prog_guides
-
-## General Information
-
-@copydoc general
-
-## Miscellaneous
-
-@copydoc misc
-
-## Driver Modules
-
-@copydoc driver_modules
-
-## Tools
-
-@copydoc tools
-
-## CI Tools
-
-@copydoc ci_tools
-
-## Performance Reports
-
-@copydoc performance_reports
+- @subpage intro
+- @subpage concepts
+- @subpage user_guides
+- @subpage prog_guides
+- @subpage general
+- @subpage misc
+- @subpage driver_modules
+- @subpage tools
+- @subpage ci_tools
+- @subpage contributing
+- @subpage debugging
+- @subpage performance_reports
+- @subpage security

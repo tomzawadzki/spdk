@@ -242,6 +242,13 @@ VERBATIM_HEADERS       = NO
 
 SOURCE_BROWSER         = YES
 
+# Setting the STRIP_CODE_COMMENTS tag to YES will instruct Doxygen to hide any
+# special comment blocks from generated source code fragments. Normal C, C++ and
+# Fortran comments will always remain visible.
+# The default value is: YES.
+
+STRIP_CODE_COMMENTS    = NO
+
 #---------------------------------------------------------------------------
 # Configuration options related to the HTML output
 #---------------------------------------------------------------------------
