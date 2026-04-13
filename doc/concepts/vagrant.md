@@ -6,7 +6,7 @@
 NVMe enabled virtual machine sandbox running without the need for any
 special hardware.
 The Vagrant environment for SPDK has support for a variety of Linux distributions as well as FreeBSD.
-Run scripts/vagrant/create_vbox.sh -h to see the complete list.
+Run `scripts/vagrant/create_vbox.sh -h` to see the complete list.
 This environment requires Vagrant 1.9.4 or newer and
 VirtualBox 5.1 or newer with the matching VirtualBox extension pack.
 
@@ -14,11 +14,11 @@ Note: If you are behind a corporate firewall, set `http_proxy` and `https_proxy`
 your environment before trying to start up the VM.  Also make sure that you
 have installed the optional vagrant module `vagrant-proxyconf`:
 
-~~~{.sh}
+```bash
 export http_proxy=...
 export https_proxy=...
 vagrant plugin install vagrant-proxyconf
-~~~
+```
 
 In case you want use kvm/libvirt you should also install `vagrant-libvirt`
 
@@ -43,9 +43,9 @@ For additional support, use the Vagrant help function to learn how to destroy, r
 Further below is sample output from a successful VM launch and execution of the NVMe hello
 world example application.
 
-~~~{.sh}
+```bash
     vagrant --help
-~~~
+```
 
 ## Running An Example {#vagrant_example}
 
@@ -55,7 +55,7 @@ If you don't see the NVMe device as seen below in both the `lspci` output as wel
 application output, you likely have a VirtualBox and/or Vagrant
 versioning issue.
 
-~~~{.sh}
+```bash
 user@dev-system:~$ cd spdk/scripts/vagrant
 user@dev-system:~/spdk/scripts/vagrant$ ./create_vbox.sh ubuntu18
 mkdir: created directory '/home/user/spdk/scripts/vagrant/ubuntu18'
@@ -114,11 +114,11 @@ Bringing machine 'default' up with 'virtualbox' provider...
   cd to ubuntu18 and type "vagrant ssh" to use.
   Use vagrant "suspend" and vagrant "resume" to stop and start.
   Use vagrant "destroy" followed by "rm -rf ubuntu18" to destroy all trace of vm.
-~~~
+```
 
 Check the environment.
 
-~~~{.sh}
+```bash
 user@dev-system:~/spdk/scripts/vagrant$ cd ubuntu18
 user@dev-system:~/spdk/scripts/vagrant/ubuntu18$ vagrant ssh
 Welcome to Ubuntu Bionic Beaver (development branch) (GNU/Linux 4.15.0-12-generic x86_64)
@@ -127,11 +127,11 @@ vagrant@vagrant:~$ lspci | grep "Non-Volatile"
 00:0e.0 Non-Volatile memory controller: InnoTek Systemberatung GmbH Device 4e56
 vagrant@vagrant:~$ ls
 spdk_repo
-~~~
+```
 
 Compiling SPDK and running an example.
 
-~~~{.sh}
+```bash
 vagrant@vagrant:~/spdk_repo/spdk$ sudo apt update
 <<output trimmed>>
 vagrant@vagrant:~/spdk_repo/spdk$ sudo scripts/pkgdep.sh
@@ -165,4 +165,4 @@ Using controller ORCL-VBOX-NVME-VER12 (VB1234-56789        ) with 1 namespaces.
 Initialization complete.
 INFO: using host memory buffer for IO
 Hello world!
-~~~
+```

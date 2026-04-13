@@ -129,27 +129,27 @@ dynamic scheduler can't rebalance ublk workload by rescheduling ublk spdk_thread
 
 Build SPDK with SPDK ublk target enabled.
 
-~~~{.sh}
+```bash
 ./configure --with-ublk
 make -j
-~~~
+```
 
 SPDK ublk target related libraries will then be linked into SPDK application `spdk_tgt`.
 Setup some hugepages for the SPDK, and then run the SPDK application `spdk_tgt`.
 
-~~~{.sh}
+```bash
 scripts/setup.sh
 build/bin/spdk_tgt &
-~~~
+```
 
 Once the `spdk_tgt` is initialized, user can enable SPDK ublk feature
 by creating ublk target. However, before creating ublk target, ublk kernel module
 `ublk_drv` should be loaded using `modprobe`.
 
-~~~{.sh}
+```bash
 modprobe ublk_drv
 scripts/rpc.py ublk_create_target
-~~~
+```
 
 ### Creating ublk block device
 
@@ -161,57 +161,57 @@ additional information on configuring SPDK storage backends.
 This guide will use a malloc bdev (ramdisk) named Malloc0. The following RPC
 will create a 256MB malloc bdev with 512-byte block size.
 
-~~~{.sh}
+```bash
 scripts/rpc.py bdev_malloc_create 256 512 -b Malloc0
-~~~
+```
 
 The following RPC will create a ublk block device exposing Malloc0 bdev.
 The created ublk block device has ID 1.  It internally has 2 queues with
 queue depth 128.
 
-~~~{.sh}
+```bash
 scripts/rpc.py ublk_start_disk Malloc0 1 -q 2 -d 128
-~~~
+```
 
 This RPC will reply back the ID of ublk block device.
-~~~
+```
 1
-~~~
+```
 
 The position of ublk block device is determined by its ID. It is created at `/dev/ublkb${ID}`.
 So the device we just created will be accessible to other processes via `/dev/ublkb1`.
 Now applications like FIO or DD can work on `/dev/ublkb1` directly.
 
-~~~{.sh}
+```bash
 dd of=/dev/ublkb1 if=/dev/zero bs=512 count=64
-~~~
+```
 
 A ublk block device is a generic kernel block device that can be formatted and
 mounted by kernel file system.
 
-~~~{.sh}
+```bash
 mkfs /dev/ublkb1
 mount /dev/ublkb1 /mnt/
 mkdir /mnt/testdir
 echo "Hello，SPDK ublk Target" > /mnt/testdir/testfile
 umount /mnt
-~~~
+```
 
 ### Deleting ublk block device and exit
 
 After usage, ublk block device can be stopped and deleted by RPC `ublk_stop_disk` with its ID.
 Specify ID 1, then device `/dev/ublkb1` will be removed.
 
-~~~{.sh}
+```bash
 scripts/rpc.py ublk_stop_disk 1
-~~~
+```
 
 If ublk is not used anymore, SPDK ublk target can be destroyed to free related SPDK
 resources.
 
-~~~{.sh}
+```bash
 scripts/rpc.py ublk_destroy_target
-~~~
+```
 
 Of course, SPDK ublk target and all ublk block devices would be destroyed automatically
 when SPDK application is terminated.

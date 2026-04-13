@@ -12,11 +12,11 @@ Interrupt mode is supported for local PCIe devices and for NVMe-oF RDMA
 initiators.
 
 Example: Using `spdk_nvme_perf` in interrupt mode against an NVMe-oF RDMA target
-~~~{.sh}
+```bash
 perf -q 128 -o 4096 -w randread -E \
 	-r 'trtype:RDMA adrfam:IPv4 traddr:192.168.100.8 trsvcid:4420 subnqn:nqn.2016-06.io.spdk:cnode1' \
 	-t 300
-~~~
+```
 
 Applications using the NVMe library directly may enable interrupt mode through
 `spdk_nvme_ctrlr_opts.enable_interrupts`. When enabled, interrupt-capable queue

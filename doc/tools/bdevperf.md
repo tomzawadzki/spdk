@@ -21,7 +21,7 @@ bdevperf's config file format is similar to FIO.
 
 Below is an example config file that uses all available parameters:
 
-~~~{.ini}
+```ini
 [global]
 filename=Malloc0:Malloc1
 bs=1024
@@ -43,7 +43,7 @@ rw=write
 bs=4096
 offset=1000000
 length=1000000
-~~~
+```
 
 Jobs `[A]` `[B]` or `[C]`, inherit default values from `[global]`
 section residing above them. So in the example, job `[A]` inherits
@@ -95,10 +95,10 @@ To enable JSON output, use the `bdevperf.py perform_tests` RPC command. The JSON
 includes detailed test results for each job and a summary of the test execution.
 Below is an example of how to trigger a test and retrieve results in JSON format:
 
-~~~{.sh}
+```bash
 sudo ./build/examples/bdevperf -c ./test/bdev/bdevperf/conf.json -m 0xFF -z
 sudo PYTHONPATH=python ./examples/bdev/bdevperf/bdevperf.py perform_tests -q 16 -o 4096 -t 5 -w write
-~~~
+```
 
 ### Example JSON Output
 
@@ -129,7 +129,7 @@ The JSON response consists of two main sections:
 
 #### Example
 
-~~~{.json}
+```json
 {
   "results": [
     {
@@ -167,4 +167,4 @@ The JSON response consists of two main sections:
   ],
   "core_count": 2
 }
-~~~
+```

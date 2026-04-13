@@ -15,7 +15,7 @@ physical address mapping and manages the garbage collection process. It is the c
 Contains the mapping of the logical addresses (LBA) to their on-disk physical location. The LBAs
 are contiguous and in range from 0 to the number of surfaced blocks (the number of spare blocks
 are calculated during device formation and are subtracted from the available address space). The
-spare blocks provide the necessary buffer for data during [garbage collection](#ftl_reloc).
+spare blocks provide the necessary buffer for data during @ref ftl_reloc "garbage collection".
 
 Since the L2P would occupy a significant amount of DRAM (4B/LBA for drives smaller than 16TiB,
 8B/LBA for bigger drives), FTL will, by default, store only the 2GiB of most recently used L2P
@@ -46,7 +46,7 @@ The address map (`P2L`) is saved as a part of the band's metadata, at the end of
 
 Bands are written sequentially (in a way that was described earlier). Before a band can be written
 to it needs to be in a `FREE` state, i.e. without user data. This happends either with a fresh FTL
-(no data has been written to the BDEV), or after [garbage collection](#ftl_reloc).
+(no data has been written to the BDEV), or after @ref ftl_reloc "garbage collection".
 The band moves to the `OPEN` state when FTL requires space for writing data. After the state transition actual user data
 can be written to the band. Once the whole available space is filled, tail metadata is written and the band transitions
 to `CLOSING` state. When that finishes the band becomes `CLOSED`.
@@ -108,20 +108,20 @@ user blocks). The lower the ratio, the higher the chance the band will be chosen
 
 ## Metadata {#ftl_metadata}
 
-In addition to the [L2P](#ftl_l2p), FTL will store additional metadata both on the cache, as
+In addition to the @ref ftl_l2p "L2P", FTL will store additional metadata both on the cache, as
 well as on the base devices. The following types of metadata are persisted:
 
 - Superblock - stores the global state of FTL; stored on cache, mirrored to the base device
 
-- L2P - see the [L2P](#ftl_l2p) section for details
+- L2P - see the @ref ftl_l2p "L2P" section for details
 
 - Band - stores the state of bands - write pointers, their OPEN/FREE/CLOSE state; stored on cache, mirrored to a different section of the cache device
 
-- Valid map - bitmask of all the valid physical addresses, used for improving [relocation](#ftl_reloc)
+- Valid map - bitmask of all the valid physical addresses, used for improving @ref ftl_reloc "relocation"
 
 - Chunk - stores the state of chunks - write pointers, their OPEN/FREE/CLOSE state; stored on cache, mirrored to a different section of the cache device
 
-- P2L - stores the address mapping (P2L, see [band](#ftl_band)) of currently open bands. This allows for the recovery of open
+- P2L - stores the address mapping (P2L, see @ref ftl_band "band") of currently open bands. This allows for the recovery of open
  bands after dirty shutdown without needing VSS DIX metadata on the base device; stored on the cache device
 
 - Trim - stores information about unmapped (trimmed) LBAs; stored on cache, mirrored to a different section of the cache device
@@ -135,7 +135,7 @@ the mapping itself, but also a sequence id (`seq_id`), which describes the relat
 (multiple writes to the same logical block would produce the same amount of P2L entries, only the last one having the current data).
 
 FTL will therefore rebuild the whole L2P by reading the P2L of all closed bands and chunks. For open bands, the P2L is stored on
-the cache device, in a separate metadata region (see [the P2L section](#ftl_metadata)). In case of a cache device formatted
+the cache device, in a separate metadata region (see @ref ftl_metadata "the P2L section"). In case of a cache device formatted
 with VSS DIX metadata, open chunks can be restored thanks to storing the mapping in the metadata. For cache devices without
 DIX, an additional log structure is maintained to maintain data consistency after power failure.
 

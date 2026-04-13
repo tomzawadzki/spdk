@@ -70,9 +70,9 @@ is all placed in the `spdk` subdirectory of `include` and we highly
 recommend that applications set their include path to the top level `include`
 directory and include the headers by prefixing `spdk/` like this:
 
-~~~{.c}
+```c
 #include "spdk/nvme.h"
-~~~
+```
 
 Most of the headers here correspond with a library in the `lib` directory. There
 are a few headers that stand alone, however. They are:

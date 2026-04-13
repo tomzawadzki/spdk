@@ -480,9 +480,9 @@ external snapshot.
 Internally Blobstore uses the concepts of sequences and batches to submit IO to the underlying device in either
 a serial fashion or in parallel, respectively. Both are defined using the following structure:
 
-~~~{.sh}
+```bash
 struct spdk_bs_request_set;
-~~~
+```
 
 These requests sets are basically bookkeeping mechanisms to help Blobstore efficiently deal with related groups
 of IO. They are an internal construct only and are pre-allocated on a per channel basis (channels were discussed
@@ -502,28 +502,28 @@ channel for the external snapshot device.
 are reviewed here.  Note that `blobstore.h` is an internal header file, the header file for Blobstore that defines
 the public API is `blob.h`.
 
-~~~{.sh}
+```bash
 struct spdk_blob
-~~~
+```
 This is an in-memory data structure that contains key elements like the blob identifier, its current state and two
 copies of the mutable metadata for the blob; one copy is the current metadata and the other is the last copy written
 to disk.
 
-~~~{.sh}
+```bash
 struct spdk_blob_mut_data
-~~~
+```
 This is a per blob structure, included the `struct spdk_blob` struct that actually defines the blob itself. It has the
 specific information on size and makeup of the blob (ie how many clusters are allocated for this blob and which ones.)
 
-~~~{.sh}
+```bash
 struct spdk_blob_store
-~~~
+```
 This is the main in-memory structure for the entire Blobstore. It defines the global on disk metadata region and maintains
 information relevant to the entire system - initialization options such as cluster size, etc.
 
-~~~{.sh}
+```bash
 struct spdk_bs_super_block
-~~~
+```
 The super block is an on-disk structure that contains all of the relevant information that's in the in-memory Blobstore
 structure just discussed along with other elements one would expect to see here such as signature, version, checksum, etc.
 
@@ -532,11 +532,11 @@ structure just discussed along with other elements one would expect to see here 
 In general, `Blobstore.c` is laid out with groups of related functions blocked together with descriptive comments. For
 example,
 
-~~~{.sh}
+```bash
 /* START spdk_bs_md_delete_blob */
 < relevant functions to accomplish the deletion of a blob >
 /* END spdk_bs_md_delete_blob */
-~~~
+```
 
 And for the most part the following conventions are followed throughout:
 
