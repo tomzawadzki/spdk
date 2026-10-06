@@ -29,7 +29,7 @@ jsonrpc: $(SPDK_ROOT_DIR)/doc/jsonrpc.md
 $(SPDK_ROOT_DIR)/doc/jsonrpc.md: $(SPDK_ROOT_DIR)/scripts/genrpc.py $(SPDK_ROOT_DIR)/schema/schema.yaml $(SPDK_ROOT_DIR)/doc/jsonrpc.md.jinja2
 	$(Q)$(SPDK_ROOT_DIR)/scripts/genrpc.py --schema $(SPDK_ROOT_DIR)/schema/schema.yaml --doc > $@
 
-output: jsonrpc Doxyfile changelog.md deprecation.md $(wildcard *.md) $(wildcard ../include/spdk/*.h)
+output: jsonrpc Doxyfile changelog.md deprecation.md $(shell find . -name '*.md' -not -path './output/*') $(wildcard ../include/spdk/*.h)
 	$(Q)rm -rf $@
 	$(Q)doxygen "$(DOXYFILE)"
 
