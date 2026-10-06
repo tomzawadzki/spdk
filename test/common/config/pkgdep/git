@@ -358,11 +358,14 @@ function install_bpftrace() {
 }
 
 function install_doxygen() {
-	# Stable, 1.10 commit that works for our docs
-	local release=78422d3905e57acebf0374feefafa6578dbe86aa
+	# Doxygen 1.18.0
+	local release=8e760943e5d9581a444cf327f43a0b4d20d29482
+	local build_jobs
+
+	build_jobs=$(($(nproc) / 2))
+	((build_jobs > 0)) || build_jobs=1
 
 	rm -rf "$GIT_REPOS/doxygen"
-
 	git clone "$GIT_REPO_DOXYGEN" "$GIT_REPOS/doxygen"
 	git -C "$GIT_REPOS/doxygen" checkout "$release"
 
@@ -373,7 +376,7 @@ function install_doxygen() {
 		-S "$GIT_REPOS/doxygen"
 
 	# This build is quite heavy, so let's not go crazy with -j here
-	make -C "$GIT_REPOS/doxygen/build" -j$(($(nproc) / 2))
+	make -C "$GIT_REPOS/doxygen/build" -j"$build_jobs"
 	make -C "$GIT_REPOS/doxygen/build" install
 }
 
