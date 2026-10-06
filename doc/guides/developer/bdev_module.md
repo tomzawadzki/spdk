@@ -44,7 +44,7 @@ module must allocate a struct spdk_bdev, fill it out appropriately, and pass
 it to the register call. The most important field to fill out is `fn_table`,
 which points at this data structure:
 
-~~~{.c}
+```c
 /*
  * Function table for a block device backend.
  *
@@ -79,7 +79,7 @@ struct spdk_bdev_fn_table {
 	 */
 	uint64_t (*get_spin_time)(struct spdk_io_channel *ch);
 };
-~~~
+```
 
 The bdev module must implement these function callbacks.
 
@@ -90,7 +90,7 @@ freeing memory or it may be shutting down a piece of hardware.
 The `io_type_supported` function returns whether a particular I/O type is
 supported. The available I/O types are:
 
-~~~{.c}
+```c
 /** bdev I/O type */
 enum spdk_bdev_io_type {
 	SPDK_BDEV_IO_TYPE_INVALID = 0,
@@ -104,7 +104,7 @@ enum spdk_bdev_io_type {
 	SPDK_BDEV_IO_TYPE_NVME_IO_MD,
 	SPDK_BDEV_IO_TYPE_WRITE_ZEROES,
 };
-~~~
+```
 
 For the simplest bdev modules, only `SPDK_BDEV_IO_TYPE_READ` and
 `SPDK_BDEV_IO_TYPE_WRITE` are necessary. `SPDK_BDEV_IO_TYPE_UNMAP` is often

@@ -23,7 +23,7 @@ containerize your SPDK based application.
 5. Write your Dockerfile. The following is a simple Dockerfile to containerize the nvme `hello_world`
   example:
 
-~~~{.sh}
+```bash
 # start with the latest Fedora
 FROM fedora
 
@@ -42,7 +42,7 @@ ADD hello_world hello_world
 
 # run the app
 CMD ./hello_world
-~~~
+```
 
 6. Create your image
 
@@ -62,7 +62,7 @@ or depending on the needs of your app you may need one or more of the following 
 
 Your output should look something like this:
 
-~~~{.sh}
+```bash
 $ sudo docker run --privileged -v //dev//hugepages://dev//hugepages hello:1.0
 Starting SPDK v20.01-pre git sha1 80da95481 // DPDK 19.11.0 initialization...
 [ DPDK EAL parameters: hello_world -c 0x1 --log-level=lib.eal:6 --log-level=lib.cryptodev:5 --log-level=user1:6 --iova-mode=pa
@@ -76,7 +76,7 @@ Using controller INTEL SSDPEDMD400G4  (CVFT7203005M400LGN  ) with 1 namespaces.
 Initialization complete.
 INFO: using host memory buffer for IO
 Hello world!
-~~~
+```
 
 ## SPDK Docker suite {#spdk_docker_suite}
 

@@ -27,10 +27,10 @@ hook (via check_format.sh). In case any style errors are detected, a
 patch with needed changes is going to be generated and either build (CI)
 or the commit will be aborted. Said patch can be then easily applied:
 
-~~~{.sh}
+```bash
 # Run from the root of the SPDK repo
 patch --merge -p0 <shfmt-3.1.0.patch
-~~~
+```
 
 The name of the patch is derived from the version of shfmt that is
 currently in use (3.1.0 is currently supported).
@@ -43,24 +43,24 @@ each of the arguments behave.
 
 The shfmt can be easily installed via pkgdep.sh:
 
-~~~{.sh}
+```bash
 ./scripts/pkgdep.sh -d
-~~~
+```
 
 This will install all the developers tools, including shfmt, on the
 local system. The precompiled binary will be saved, by default, to
 /opt/shfmt and then linked under /usr/bin. Both paths can be changed
 by setting SHFMT_DIR and SHFMT_DIR_OUT in the environment. Example:
 
-~~~{.sh}
+```bash
 SHFMT_DIR=/keep_the_binary_here \
 SHFMT_DIR_OUT=/and_link_it_here \
   ./scripts/pkgdep.sh -d
-~~~
+```
 
 ## Examples {#shfmt_examples}
 
-~~~{.sh}
+```bash
 #######################################
 if foo=$(bar); then
   echo "$foo"
@@ -146,4 +146,4 @@ exec {bar}< foo
 # ->
 ((no_spacing_at_the_beginning & ~and_no_spacing_at_the_end))
 : $((no_spacing_at_the_beginning & ~and_no_spacing_at_the_end))
-~~~
+```

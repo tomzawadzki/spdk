@@ -8,7 +8,7 @@ in lists, e.g. information about bdevs or threads.
 If, for example I have several bdevs, and I wish to get information on bdev by
 the name 'test_vols3', I will need to manually iterate over the list as follows:
 
-~~~{.sh}
+```bash
 (gdb) p g_bdev_mgr->bdevs->tqh_first->name
 $5 = 0x7f7dcc0b21b0 "test_vols1"
 (gdb) p g_bdev_mgr->bdevs->tqh_first->internal->link->tqe_next->name
@@ -19,7 +19,7 @@ $7 = 0x7f7dcc215a00 "test_vols3"
 (gdb) p
 g_bdev_mgr->bdevs->tqh_first->internal->link->tqe_next->internal->link->tqe_next
 $8 = (struct spdk_bdev *) 0x7f7dcc2c7c08
-~~~
+```
 
 At this stage, we can start looking at the relevant fields of our bdev which now
 we know is in address 0x7f7dcc2c7c08.
@@ -34,7 +34,7 @@ Examples:
 
 Printing bdevs:
 
-~~~{.sh}
+```bash
 (gdb) spdk_print_bdevs
 
 SPDK object of type struct spdk_bdev at 0x7f7dcc1642a8
@@ -54,22 +54,22 @@ SPDK object of type struct spdk_bdev at 0x7f7dcc2c7c08
 name 0x7f7dcc215a00 "test_vols3"
 
 ---------------
-~~~
+```
 
 Finding a bdev by name:
 
-~~~{.sh}
+```bash
 (gdb) spdk_find_bdev test_vols1
 test_vols1
 
 SPDK object of type struct spdk_bdev at 0x7f7dcc1642a8
 ((struct spdk_bdev*) 0x7f7dcc1642a8)
 name 0x7f7dcc0b21b0 "test_vols1"
-~~~
+```
 
 Printing  spdk threads:
 
-~~~{.sh}
+```bash
 (gdb) spdk_print_threads
 
 SPDK object of type struct spdk_thread at 0x7fffd0008b50
@@ -103,11 +103,11 @@ IO Channels:
         ref 1
         device 0x7fffd0005630 (0x7fffd0005690 "bdev_mgr")
         ---------------
-~~~
+```
 
 Printing nvmf subsystems:
 
-~~~{.sh}
+```bash
 (gdb) spdk_print_nvmf_subsystems
 
 SPDK object of type struct spdk_nvmf_subsystem at 0x7fffd0008d00
@@ -123,7 +123,7 @@ SPDK object of type struct spdk_nvmf_subsystem at 0x7fffd0055760
 name "nqn.2016-06.io.spdk.umgmt:cnode1", '\000' <repeats 191 times>
 nqn "nqn.2016-06.io.spdk.umgmt:cnode1", '\000' <repeats 191 times>
 ID 1
-~~~
+```
 
 Printing SPDK spinlocks:
 
@@ -131,7 +131,7 @@ In this example, the spinlock has been initialized and locked but has never been
 After it is unlocked the first time the last unlocked stack will be present and the
 `Locked by spdk_thread` line will say `not locked`.
 
-~~~{.sh}
+```bash
 Breakpoint 2, spdk_spin_unlock (sspin=0x655110 <g_bdev_mgr+80>) at thread.c:2915
 2915            struct spdk_thread *thread = spdk_get_thread();
 (gdb) print *sspin
@@ -156,11 +156,11 @@ $2 = struct spdk_spinlock:
      0x7ffff62c9d85 <__libc_start_main+229>
      0x40268e <_start+46>
   Last unlocked at:
-~~~
+```
 
 Print a single spinlock stack:
 
-~~~{.sh}
+```bash
 (gdb) print sspin->internal.lock_stack
 $1 = struct sspin_stack:
  0x40c6a1 <spdk_spin_lock+436> /build/spdk/spdk-review-public/lib/thread/thread.c:2909
@@ -171,7 +171,7 @@ $1 = struct sspin_stack:
  0x4148fa <main+547> thread_ut.c:1948
  0x7ffff62c9d85 <__libc_start_main+229>
  0x40248e <_start+46>
-~~~
+```
 
 ## Loading The gdb Macros
 
@@ -185,14 +185,14 @@ From gdb, with the application core open, invoke python and load the modules.
 In the example below, I copied the macros to the /tmp directory which is not in
 the PYTHONPATH, so I had to manually add the directory to the path.
 
-~~~{.sh}
+```bash
 (gdb) python
 >import sys
 >sys.path.append('/tmp')
 >import gdb_macros
 >end
 (gdb) spdk_load_macros
-~~~
+```
 
 ## Using the gdb Data Directory
 
@@ -210,9 +210,9 @@ above prior to starting gdb.
 
 Example .gdbinit:
 
-~~~{.sh}
+```bash
 source /opt/km/install/tools/gdb_macros/gdb_macros.py
-~~~
+```
 
 When starting gdb you still have to call spdk_load_macros.
 
@@ -226,7 +226,7 @@ gdb is used for reasons other than debugging spdk core dumps.
 In the example below, I attempted to load the macros when the globals are not
 available causing gdb to fail loading the gdb_macros:
 
-~~~{.sh}
+```bash
 (gdb) spdk_load_macros
 Traceback (most recent call last):
   File "/opt/km/install/tools/gdb_macros/gdb_macros.py", line 257, in invoke
@@ -242,11 +242,11 @@ Traceback (most recent call last):
 RuntimeError: No symbol table is loaded.  Use the "file" command.
 Error occurred in Python command: No symbol table is loaded.  Use the "file"
 command.
-~~~
+```
 
 ## Macros available
 
-- spdk_load_macros: load the macros (use --reload in order to reload them)
+- spdk_load_macros: load the macros (use `--reload` in order to reload them)
 - spdk_print_bdevs: information about bdevs
 - spdk_find_bdev: find a bdev (substring search)
 - spdk_print_io_devices: information about io devices

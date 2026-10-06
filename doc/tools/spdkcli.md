@@ -17,27 +17,27 @@ Some distributions name the package configshell_fb.
 
 ### Start SPDK application
 
-~~~{.sh}
+```bash
 ./scripts/setup.sh
 ./build/bin/vhost -c vhost.json
-~~~
+```
 
 ### Run spdkcli
 
 spdkcli should be run with the same privileges as SPDK application.
 
 To use spdkcli in interactive mode:
-~~~{.sh}
+```bash
 scripts/spdkcli.py
-~~~
+```
 Use "help" command to get a list of available commands for each tree node.
 
 It is also possible to use spdkcli to run just a single command,
 just use the command as an argument to the application.
 For example, to view current configuration and immediately exit:
-~~~{.sh}
+```bash
 scripts/spdkcli.py ls
-~~~
+```
 
 ## Optional - create Python virtual environment
 
@@ -45,18 +45,18 @@ You can use Python virtual environment if you don't want to litter your
 system Python installation.
 
 First create the virtual environment:
-~~~{.sh}
+```bash
 cd spdk
 mkdir venv
 virtualenv-3 ./venv
 source ./venv/bin/activate
-~~~
+```
 
 Then install the dependencies using pip. That way dependencies will be
 installed only inside the virtual environment.
-~~~{.sh}
+```bash
 (venv) pip install configshell-fb
-~~~
+```
 
 Tip: if you are using "sudo" instead of root account, it is suggested to do
 "sudo -s" before activating the environment. This is because venv might not work

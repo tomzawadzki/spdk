@@ -38,17 +38,17 @@ spdk_nvme_ctrlr_get_regs_cmbsz()            | @copybrief spdk_nvme_ctrlr_get_reg
 SPDK's identify example application displays whether a device has a controller
 memory buffer and which operations it supports. Run it as follows:
 
-~~~{.sh}
+```bash
 spdk_nvme_identify -r traddr:<pci id of ssd>
-~~~
+```
 
 ## cmb_copy: An example P2P Application {#p2p_cmb_copy}
 
 Run the cmb_copy example application.
 
-~~~{.sh}
+```bash
 ./build/examples/cmb_copy -r <pci id of write ssd>-1-0-1 -w <pci id of write ssd>-1-0-1 -c <pci id of the ssd with cmb>
-~~~
+```
 This should copy a single LBA (LBA 0) from namespace 1 on the read
 NVMe SSD to LBA 0 on namespace 1 on the write SSD using the CMB as the
 DMA buffer.

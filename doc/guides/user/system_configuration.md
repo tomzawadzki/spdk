@@ -34,10 +34,10 @@ is supported with DPDK starting from version 18.11.
 Make sure the target user has RW access to at least one hugepage mount.
 A good idea is to create a new mount specifically for SPDK:
 
-~~~{.sh}
+```bash
 # mkdir /mnt/spdk_hugetlbfs
 # mount -t hugetlbfs -o uid=spdk,size=<value> none /mnt/spdk_hugetlbfs
-~~~
+```
 
 Then start SPDK applications with an additional parameter `--huge-dir /mnt/spdk_hugetlbfs`
 
@@ -61,9 +61,9 @@ with the patch in question available here:
 Let's assume we want to use PCI device `0000:04:00.0`. First of all, verify
 that it has an IOMMU group assigned:
 
-~~~{.sh}
+```bash
 readlink "/sys/bus/pci/devices/0000:00:04.0/iommu_group"
-~~~
+```
 
 The output should be e.g.
 `../../../kernel/iommu_groups/5`
@@ -71,10 +71,10 @@ The output should be e.g.
 Which means that the device is a part of the IOMMU group 5. We can check if
 there are any other devices in that group.
 
-~~~{.sh}
+```bash
 $ ls /sys/kernel/iommu_groups/5/devices/
 0000:00:04.0  0000:00:04.1  0000:00:04.2  0000:00:04.3  0000:00:04.4  0000:00:04.5  0000:00:04.6  0000:00:04.7
-~~~
+```
 
 In this case `0000:04:00.0` is an I/OAT channel which comes with 7 different
 channels associated with the same IOMMU group.
@@ -82,9 +82,9 @@ channels associated with the same IOMMU group.
 To give the user `spdk` full access to the VFIO IOMMU group 5 and all its
 devices, use the following:
 
-~~~{.sh}
+```bash
 # chown spdk /dev/vfio/5
-~~~
+```
 
 ### Memory constraints {#system_configuration_nonroot_memory_constraints}
 
@@ -99,9 +99,9 @@ entries:
 The limit can be checked by running the following command as target user:
 (output in kilobytes)
 
-~~~{.sh}
+```bash
 ulimit -l
-~~~
+```
 
 On Ubuntu 18.04 this returns 16384 (16MB) by default, which is way below
 what SPDK needs.
@@ -127,9 +127,9 @@ Then logout from the target user account. The changes will take effect after the
 Linux offers a `prlimit` utility that can override limits of any given process.
 On Ubuntu, it is a part of the `util-linux` package.
 
-~~~{.sh}
+```bash
 # prlimit --pid <pid> --memlock=<soft>:<hard>
-~~~
+```
 
 Note that the above needs to be executed before the first device is attached to
 the SPDK application.
