@@ -4,6 +4,7 @@
 #
 
 SPDK_ROOT_DIR := $(abspath $(CURDIR)/..)
+DOXYFILE ?= Doxyfile
 
 all: doc
 	@:
@@ -30,7 +31,7 @@ $(SPDK_ROOT_DIR)/doc/jsonrpc.md: $(SPDK_ROOT_DIR)/scripts/genrpc.py $(SPDK_ROOT_
 
 output: jsonrpc Doxyfile changelog.md deprecation.md $(wildcard *.md) $(wildcard ../include/spdk/*.h)
 	$(Q)rm -rf $@
-	$(Q)doxygen Doxyfile
+	$(Q)doxygen "$(DOXYFILE)"
 
 clean:
 	$(Q)rm -rf output changelog.md deprecation.md jsonrpc.md
