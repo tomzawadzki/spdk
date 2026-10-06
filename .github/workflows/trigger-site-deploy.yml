@@ -1,0 +1,35 @@
+---
+name: Trigger site deployment
+
+"on":
+  push:
+    branches: [master]
+    paths:
+      - 'doc/**'
+      - 'include/spdk/**'
+      - 'CHANGELOG.md'
+      - 'deprecation.md'
+      - 'schema/**'
+      - 'scripts/genrpc.py'
+      - 'scripts/rpc.py'
+      - 'python/spdk/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dispatch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch deploy event to spdk.github.io
+        env:
+          SITE_REPO: ${{ github.repository_owner }}/spdk.github.io
+          GH_TOKEN: ${{ secrets.SITE_DISPATCH_TOKEN }}
+        run: |
+          # Forks may not have the secret configured.
+          if [[ -z "$GH_TOKEN" ]]; then
+            echo "::notice::SITE_DISPATCH_TOKEN is not set, skipping site deployment"
+            exit 0
+          fi
+          gh api "repos/$SITE_REPO/dispatches" -f event_type=spdk-site-deploy
