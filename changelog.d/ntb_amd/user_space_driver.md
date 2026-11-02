@@ -12,4 +12,4 @@ introspection keys are `SPDK_NTB_*`-prefixed.
 
 A reference application exercising the remote memory window with either CPU
 `memcpy` or AE4DMA-offloaded copies ships as `examples/ntb/perf`; see
-`doc/ntb_amd.md` for the topology model and two-host bring-up procedure.
+`doc/drivers/ntb_amd.md` for the topology model and two-host bring-up procedure.

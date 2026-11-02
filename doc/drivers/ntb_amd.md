@@ -123,7 +123,7 @@ bring-up and releases the device.
 memory window using either a CPU `memcpy` or AE4DMA-offloaded copies. It
 uses only the public driver API and serves as a worked example of the
 bring-up sequence above. (The DMA path drives the companion AE4DMA engine;
-see [accel_fw](accel_fw.md) for the AE4DMA accel module.)
+see @ref accel_fw "accel_fw" for the AE4DMA accel module.)
 
 Run the same binary on both hosts. Options:
 
