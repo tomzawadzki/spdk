@@ -12,6 +12,10 @@ Other releases are supported until the following release.
 
 ## Version format {#version_format}
 
+An SPDK release defines a public [API](https://en.wikipedia.org/wiki/Application_programming_interface)
+version, where the [public API](files.html) comprises all of the C header files in the
+[include/spdk](https://github.com/spdk/spdk/tree/master/include/spdk) directory.
+
 SPDK version names follow the format `YY.MM.vv`, where `YY` is the year, `MM` is the month,
 and `vv` is a minor version number (omitted for 0). For example, the release in January 2026
 is version 26.01. The minor version is reserved for patch releases made at a later date that
@@ -57,6 +61,10 @@ required to create new branches (e.g., spdk-25.11) from the upstream releases an
 patches to the fork through Gerrit.
 
 ## Schedule {#schedule}
+
+[A high level roadmap](https://github.com/orgs/spdk/projects/5) for the next release is always
+posted at the start of the release cycle. The roadmap may be discussed on the SPDK mailing list
+at any time, and feedback is very welcome.
 
 Releases are typically done on the last Friday of the month they are targeting. The schedule
 can move up in case of any conflicts. Code freeze is done a week before the release.

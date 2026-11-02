@@ -9,4 +9,7 @@
 - @subpage driver_modules
 - @subpage tools
 - @subpage ci_tools
+- @subpage contributing
+- @subpage debugging
 - @subpage performance_reports
+- @subpage security
