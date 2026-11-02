@@ -4,13 +4,16 @@
 #
 
 SPDK_ROOT_DIR := $(abspath $(CURDIR)/..)
+DOXYFILE ?= Doxyfile
+# Has to match OUTPUT_DIRECTORY in $(DOXYFILE).
+OUTPUT_DIRECTORY ?= output
 
 all: doc
 	@:
 
 .PHONY: all doc jsonrpc clean changelog.md
 
-doc: output
+doc: $(OUTPUT_DIRECTORY)
 
 deprecation.md: ../deprecation.md
 	$(Q)sed -e 's/^# Deprecation/# Deprecation {#deprecation}/' \
@@ -30,9 +33,9 @@ jsonrpc: $(SPDK_ROOT_DIR)/doc/jsonrpc.md
 $(SPDK_ROOT_DIR)/doc/jsonrpc.md: $(SPDK_ROOT_DIR)/scripts/genrpc.py $(SPDK_ROOT_DIR)/schema/schema.yaml $(SPDK_ROOT_DIR)/doc/jsonrpc.md.jinja2
 	$(Q)$(SPDK_ROOT_DIR)/scripts/genrpc.py --schema $(SPDK_ROOT_DIR)/schema/schema.yaml --doc > $@
 
-output: jsonrpc Doxyfile changelog.md deprecation.md $(shell find . -name '*.md' -not -path './output/*') $(wildcard ../include/spdk/*.h)
+$(OUTPUT_DIRECTORY): jsonrpc Doxyfile changelog.md deprecation.md $(shell find . -name '*.md' -not -path './output/*') $(wildcard ../include/spdk/*.h)
 	$(Q)rm -rf $@
-	$(Q)doxygen Doxyfile
+	$(Q)doxygen "$(DOXYFILE)"
 
 clean:
-	$(Q)rm -rf output changelog.md changelog.md.tmp deprecation.md jsonrpc.md
+	$(Q)rm -rf $(OUTPUT_DIRECTORY) changelog.md changelog.md.tmp deprecation.md jsonrpc.md
